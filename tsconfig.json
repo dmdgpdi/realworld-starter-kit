@@ -29,7 +29,8 @@
     ".storybook/**/*.ts",
     "cypress.config.js",
     "cypress/**/*.js",
-    "cypress/**/*.ts"
+    "cypress/**/*.ts",
+    "next.config.js"
   ],
   "exclude": ["node_modules"]
 }

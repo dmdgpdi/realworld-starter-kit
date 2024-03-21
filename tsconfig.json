@@ -26,7 +26,10 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".storybook/**/*.ts"
+    ".storybook/**/*.ts",
+    "cypress.config.js",
+    "cypress/**/*.js",
+    "cypress/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

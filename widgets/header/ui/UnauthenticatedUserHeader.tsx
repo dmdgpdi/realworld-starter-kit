@@ -7,19 +7,13 @@ export default function UnauthenticatedUserHeader() {
       <NavIconLink href="/">conduit</NavIconLink>
       <NavItemList>
         <NavItem>
-          <NavLink href="/" isActive={true}>
-            Home
-          </NavLink>
+          <NavLink href="/">Home</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/login" isActive={true}>
-            Sign in
-          </NavLink>
+          <NavLink href="/login">Sign in</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/register" isActive={true}>
-            Sign up
-          </NavLink>
+          <NavLink href="/register">Sign up</NavLink>
         </NavItem>
       </NavItemList>
     </Nav>

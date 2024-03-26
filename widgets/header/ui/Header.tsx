@@ -1,8 +1,8 @@
 'use client';
 
 import { useAuth } from '@/entities/auth';
-import AuthenticatedUserHeader from './ui/AuthenticatedUserHeader';
-import UnauthenticatedUserHeader from './ui/UnauthenticatedUserHeader';
+import AuthenticatedUserHeader from './AuthenticatedUserHeader';
+import UnauthenticatedUserHeader from './UnauthenticatedUserHeader';
 
 // TODO 클라이언트 렌더링 줄이기
 export default function Header() {

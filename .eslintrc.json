@@ -37,7 +37,12 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": [".storybook/**", "stories/**", "**/*.stories.tsx"]
+        "devDependencies": [
+          ".storybook/**",
+          "stories/**",
+          "**/*.stories.tsx",
+          "mock/**"
+        ]
       }
     ]
   }

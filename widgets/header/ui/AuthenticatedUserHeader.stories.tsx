@@ -4,7 +4,7 @@ import { expect, userEvent, within } from '@storybook/test';
 import AuthenticatedUserHeader from './AuthenticatedUserHeader';
 
 const meta: Meta<typeof AuthenticatedUserHeader> = {
-  title: 'Header/AuthenticatedUserHeader',
+  title: 'widgets/Header/AuthenticatedUserHeader',
   component: AuthenticatedUserHeader,
   tags: ['autodocs'],
 };

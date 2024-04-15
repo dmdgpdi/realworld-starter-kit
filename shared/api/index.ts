@@ -10,6 +10,7 @@ enum API {
   PROFILES = 'profiles',
   FOLLOW = 'follow',
   USERS = 'users',
+  USER = 'user',
   LOGIN = 'login',
 }
 

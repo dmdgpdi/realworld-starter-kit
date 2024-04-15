@@ -31,4 +31,6 @@ type Query = {
   limit?: number;
 };
 
-export type { AuthorType, ArticleType, ArticleListType, Query };
+type FeedParameter = Pick<Query, 'offset' | 'limit'>;
+
+export type { AuthorType, ArticleType, ArticleListType, Query, FeedParameter };

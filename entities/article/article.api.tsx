@@ -1,7 +1,7 @@
 import { BASE_URL, API } from '@/shared/api';
 
 import { objectLength } from '@/shared/lib';
-import { ArticleListType, Query } from './article.type';
+import { ArticleListType, FeedParameter, Query } from './article.type';
 import { appendQueryString } from './article.lib';
 import { ARTICLES_PER_PAGE } from './article.constant';
 
@@ -25,4 +25,30 @@ const getArticleList = async (
   return res.json();
 };
 
-export { getArticleList };
+const getFeedList = async (
+  feedParameter: FeedParameter,
+  token: string,
+): Promise<ArticleListType> => {
+  let url = `${BASE_URL}/${API.ARTICLES}/${API.FEED}`;
+
+  if (objectLength(feedParameter)) {
+    url = appendQueryString(url, feedParameter);
+  }
+
+  const res = await fetch(url, {
+    cache: 'no-store',
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(
+      `${res.status} 번 ${res.statusText} error 데이터 불러오기 실패`,
+    );
+  }
+
+  return res.json();
+};
+
+export { getArticleList, getFeedList };

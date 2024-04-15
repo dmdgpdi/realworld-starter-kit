@@ -3,14 +3,17 @@
 import { authLib } from '@/entities/auth';
 import { tagType } from '@/entities/tag';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 function ArticleCategory() {
   const [hasToken, setHasToken] = useState(false);
-  const { tag, feed } = useParams<{ tag: tagType.Tag; feed: string }>();
+  const { tag } = useParams<{ tag: tagType.Tag; feed: string }>();
+  const pathname = usePathname();
+  const urlIsFeed = pathname.includes('feed');
 
-  const globalFeedClassName = tag || feed ? 'nav-link' : 'nav-link active';
+  const feedClassName = urlIsFeed ? 'nav-link active' : 'nav-link';
+  const articleClassName = tag || urlIsFeed ? 'nav-link' : 'nav-link active';
 
   useEffect(() => {
     const token = authLib.getClientAuthCookie();
@@ -28,13 +31,13 @@ function ArticleCategory() {
       <nav className="nav nav-pills outline-active">
         {hasToken && (
           <li className="nav-item">
-            <Link className="nav-link" href="/">
+            <Link className={feedClassName} href="/feed">
               Your Feed
             </Link>
           </li>
         )}
         <li className="nav-item">
-          <Link className={globalFeedClassName} href="/">
+          <Link className={articleClassName} href="/">
             Global Feed
           </Link>
         </li>

@@ -1,7 +1,7 @@
+import { ContentPageLayout } from '@/shared/ui';
 import {
   articleApi,
   ArticleConstant,
-  ArticleContentLayout,
   ArticlePageLayout,
   MainContent,
   SideContent,
@@ -32,7 +32,7 @@ export default async function Home({ params }: HomeProps) {
     <ArticlePageLayout>
       <ArticleBanner />
 
-      <ArticleContentLayout>
+      <ContentPageLayout>
         <MainContent>
           <ArticleCategory />
           <ArticleList articleList={articleList} />
@@ -46,7 +46,7 @@ export default async function Home({ params }: HomeProps) {
         <SideContent>
           <ArticleSideBar tagList={tagList} />
         </SideContent>
-      </ArticleContentLayout>
+      </ContentPageLayout>
     </ArticlePageLayout>
   );
 }

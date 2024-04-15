@@ -1,6 +1,6 @@
+import { ContentPageLayout } from '@/shared/ui';
 import {
   ArticleConstant,
-  ArticleContentLayout,
   ArticlePageLayout,
   MainContent,
   SideContent,
@@ -8,7 +8,6 @@ import {
 } from '@/entities/article';
 import { tagApi } from '@/entities/tag';
 import { Tag } from '@/entities/tag/tag.type';
-
 import {
   ArticleBanner,
   ArticleCategory,
@@ -38,7 +37,7 @@ export default async function ArticleTagPage({ params }: ArticleTagPageProps) {
     <ArticlePageLayout>
       <ArticleBanner />
 
-      <ArticleContentLayout>
+      <ContentPageLayout>
         <MainContent>
           <ArticleCategory />
           <ArticleList articleList={articleList} />
@@ -52,7 +51,7 @@ export default async function ArticleTagPage({ params }: ArticleTagPageProps) {
         <SideContent>
           <ArticleSideBar tagList={tagList} />
         </SideContent>
-      </ArticleContentLayout>
+      </ContentPageLayout>
     </ArticlePageLayout>
   );
 }

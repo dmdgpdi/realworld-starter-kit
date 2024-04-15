@@ -1,15 +1,18 @@
-'use client';
+'use server';
 
-import { useAuth } from '@/entities/auth';
+import { authApi, authServerAction } from '@/entities/auth';
 import AuthenticatedUserHeader from './AuthenticatedUserHeader';
 import UnauthenticatedUserHeader from './UnauthenticatedUserHeader';
 
-// TODO 클라이언트 렌더링 줄이기
-export default function Header() {
-  const { isLoggedIn, userName } = useAuth();
+export default async function Header() {
+  const isLoggedIn = await authServerAction.hasAuthCookie();
 
   if (isLoggedIn) {
-    return <AuthenticatedUserHeader userName={userName} />;
+    const token = (await authServerAction.getAuthCookie()) ?? 'undefined';
+    const userInfor = await authApi.getUserInfor(token);
+    const { user } = userInfor;
+
+    return <AuthenticatedUserHeader userName={user.username} />;
   }
 
   return <UnauthenticatedUserHeader />;

@@ -12,7 +12,7 @@ import {
 import { LoginForm } from '@/features/auth';
 
 export default async function LoginPage() {
-  const isLoggedIn = await authServerAction.hasToken();
+  const isLoggedIn = await authServerAction.hasAuthCookie();
 
   if (isLoggedIn) {
     redirect('/');

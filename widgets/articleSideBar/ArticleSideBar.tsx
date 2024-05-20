@@ -1,5 +1,6 @@
-import { tagType } from '@/entities/tag';
-import { ArticleCategoryTag } from '@/entities/tag/ui/ArticleCategoryTag';
+import { tagType, ArticleCategoryTag } from '@/entities/tag';
+
+import { TagListLayout } from '@/entities/tag';
 
 async function ArticleSideBar({ tagList }: ArticleSideBarProps) {
   if (tagList.length === 0) {
@@ -10,11 +11,11 @@ async function ArticleSideBar({ tagList }: ArticleSideBarProps) {
     <div className="sidebar">
       <p>Popular Tags</p>
 
-      <div className="tag-list">
+      <TagListLayout>
         {tagList.map(tag => (
           <ArticleCategoryTag tag={tag} key={tag} />
         ))}
-      </div>
+      </TagListLayout>
     </div>
   );
 }

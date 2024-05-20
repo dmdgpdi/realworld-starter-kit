@@ -4,4 +4,8 @@ type TagList = {
   tags: Tag[];
 };
 
-export type { Tag, TagList };
+type TagListResponse = {
+  tags: Tag[];
+};
+
+export type { Tag, TagList, TagListResponse };

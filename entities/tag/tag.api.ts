@@ -1,9 +1,9 @@
 import { BASE_URL } from '@/shared/api';
 import { API } from '@/shared/api';
 import { appendUrl } from '@/shared/lib';
-import { TagList } from './tag.type';
+import { TagListResponse } from './tag.type';
 
-const getTagList = async (): Promise<TagList> => {
+const getTagList = async (): Promise<TagListResponse> => {
   const url = appendUrl(BASE_URL, API.TAGS);
 
   const res = await fetch(url);

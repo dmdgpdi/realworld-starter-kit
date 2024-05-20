@@ -1,40 +1,45 @@
+import { redirect } from 'next/navigation';
 import { ContentPageLayout } from '@/shared/ui';
 import {
   ArticleConstant,
-  ArticlePageLayout,
+  ArticleListPageLayout,
   MainContent,
   SideContent,
   articleApi,
+  ArticleBanner,
+  articleLib,
 } from '@/entities/article';
 import { tagApi } from '@/entities/tag';
 import { Tag } from '@/entities/tag/tag.type';
 import {
-  ArticleBanner,
+  Pagination,
   ArticleCategory,
   ArticleList,
   ArticleSideBar,
-} from '@/features/article';
-import { Pagination } from '@/widgets/pagination';
+} from '@/widgets';
 
-// TODO: 올바르지 않은 tag가 들어올 때 예외처리
-// TODO: TAG 여러개가 들어올 떄 예외처리
 export default async function ArticleTagPage({ params }: ArticleTagPageProps) {
-  const articlePage = parseInt(params.articlePage, 10);
-  const currentPage = Number.isNaN(articlePage) ? 1 : articlePage;
+  const currentPage = articleLib.getCorrectPage(params.articlePage);
+  const offset = currentPage - 1;
   const tag = params.tag;
 
-  // TODO: 비동기 처리 동시에 실행하기.
-  const { articles: articleList, articlesCount } =
-    await articleApi.getArticleList({
+  const [articleResponse, tagResponse] = await Promise.all([
+    articleApi.getArticleList({
       tag,
-      offset: currentPage,
+      offset: offset * ArticleConstant.ARTICLES_PER_PAGE,
       limit: ArticleConstant.ARTICLES_PER_PAGE,
-    });
+    }),
+    tagApi.getTagList(),
+  ]);
+  const { articles: articleList, articlesCount } = articleResponse;
+  const { tags: tagList } = tagResponse;
 
-  const { tags: tagList } = await tagApi.getTagList();
+  if (!tagList.includes(tag)) {
+    redirect('/');
+  }
 
   return (
-    <ArticlePageLayout>
+    <ArticleListPageLayout>
       <ArticleBanner />
 
       <ContentPageLayout>
@@ -52,7 +57,7 @@ export default async function ArticleTagPage({ params }: ArticleTagPageProps) {
           <ArticleSideBar tagList={tagList} />
         </SideContent>
       </ContentPageLayout>
-    </ArticlePageLayout>
+    </ArticleListPageLayout>
   );
 }
 

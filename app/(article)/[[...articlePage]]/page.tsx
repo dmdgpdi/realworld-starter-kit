@@ -1,37 +1,36 @@
 import { ContentPageLayout } from '@/shared/ui';
 import {
   articleApi,
+  articleLib,
   ArticleConstant,
-  ArticlePageLayout,
+  ArticleListPageLayout,
   MainContent,
   SideContent,
+  ArticleBanner,
 } from '@/entities/article';
 import { tagApi } from '@/entities/tag';
 import {
-  ArticleBanner,
+  Pagination,
   ArticleCategory,
   ArticleList,
   ArticleSideBar,
-} from '@/features/article';
-import { Pagination } from '@/widgets/pagination';
+} from '@/widgets';
 
-// TODO: 잘못된 접근(URL ex: /asdf, 더 이상 값이 없는 경우에 예외 처리 필요.)
 export default async function Home({ params }: HomeProps) {
-  const articlePage = parseInt(params.articlePage, 10);
-  const currentPage = Number.isNaN(articlePage) ? 1 : articlePage;
+  const currentPage = articleLib.getCorrectPage(params.articlePage);
+  const offset = currentPage - 1;
 
   const { articles: articleList, articlesCount } =
     await articleApi.getArticleList({
-      offset: currentPage,
+      offset: offset * ArticleConstant.ARTICLES_PER_PAGE,
       limit: ArticleConstant.ARTICLES_PER_PAGE,
     });
 
   const { tags: tagList } = await tagApi.getTagList();
 
   return (
-    <ArticlePageLayout>
+    <ArticleListPageLayout>
       <ArticleBanner />
-
       <ContentPageLayout>
         <MainContent>
           <ArticleCategory />
@@ -47,7 +46,7 @@ export default async function Home({ params }: HomeProps) {
           <ArticleSideBar tagList={tagList} />
         </SideContent>
       </ContentPageLayout>
-    </ArticlePageLayout>
+    </ArticleListPageLayout>
   );
 }
 

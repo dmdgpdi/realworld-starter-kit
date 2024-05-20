@@ -1,27 +1,27 @@
+import { redirect } from 'next/navigation';
 import { ContentPageLayout } from '@/shared/ui';
 import {
   articleApi,
+  articleLib,
   ArticleConstant,
   ArticlePageLayout,
   MainContent,
   SideContent,
+  ArticleBanner,
 } from '@/entities/article';
 import { tagApi } from '@/entities/tag';
 import {
-  ArticleBanner,
+  Pagination,
   ArticleCategory,
   ArticleList,
   ArticleSideBar,
-} from '@/features/article';
-import { Pagination } from '@/widgets/pagination';
+} from '@/widgets';
 import { authServerAction } from '@/entities/auth';
-import { redirect } from 'next/navigation';
 
 export default async function ArticleFeedPage({
   params,
 }: ArticleFeedPageProps) {
-  const articlePage = parseInt(params.articlePage, 10);
-  const currentPage = Number.isNaN(articlePage) ? 1 : articlePage;
+  const currentPage = articleLib.getCorrectPage(params.articlePage);
   const token = await authServerAction.getAuthCookie();
 
   if (!token) {

@@ -4,7 +4,7 @@ import { authApi, authServerAction } from '@/entities/auth';
 import AuthenticatedUserHeader from './AuthenticatedUserHeader';
 import UnauthenticatedUserHeader from './UnauthenticatedUserHeader';
 
-export default async function Header() {
+async function Header() {
   const isLoggedIn = await authServerAction.hasAuthCookie();
 
   if (isLoggedIn) {
@@ -17,3 +17,5 @@ export default async function Header() {
 
   return <UnauthenticatedUserHeader />;
 }
+
+export { Header };

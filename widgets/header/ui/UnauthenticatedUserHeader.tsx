@@ -1,4 +1,4 @@
-import { Nav, NavIconLink, NavItem, NavItemList } from './Nav';
+import { NavItem, Nav, NavIconLink, NavItemList } from '@/shared/ui';
 import { NavLink } from './NavLink';
 
 export default function UnauthenticatedUserHeader() {

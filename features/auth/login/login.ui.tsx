@@ -4,16 +4,14 @@ import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
+  SubmitButton,
   ErrorMessageUl,
   FieldSet,
-  Input,
-  SubmitButton,
-  authApi,
-  authLib,
-  authSchema,
-  authType,
-} from '@/entities/auth';
+  LargeInput,
+} from '@/shared/ui';
+import { authApi, authLib, authSchema, authType } from '@/entities/auth';
 
+// TODO: 로그인 중 비밀번호 틀릴 시, 에러. -> 비밀번호 틀렸을 때 에러처리가 없음.
 export function LoginForm() {
   const {
     register,
@@ -64,14 +62,14 @@ export function LoginForm() {
 
       <form action="" onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
-          <Input
+          <LargeInput
             {...register('email')}
             placeholder="Email"
             autoComplete="email"
           />
         </FieldSet>
         <FieldSet>
-          <Input
+          <LargeInput
             {...register('password')}
             type="password"
             placeholder="Password"

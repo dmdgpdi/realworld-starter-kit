@@ -4,8 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { API } from '@/shared/api';
-import { FieldSet, Input, SubmitButton, ErrorMessageUl } from '@/entities/auth';
 import { authSchema, authType, authApi } from '@/entities/auth';
+import {
+  ErrorMessageUl,
+  FieldSet,
+  LargeInput,
+  SubmitButton,
+} from '@/shared/ui';
 
 export function RegisterForm() {
   const {
@@ -60,7 +65,7 @@ export function RegisterForm() {
 
       <form action="" onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
-          <Input
+          <LargeInput
             {...register('username', {
               required: 'Username을 입력해주세요.',
             })}
@@ -68,14 +73,14 @@ export function RegisterForm() {
           />
         </FieldSet>
         <FieldSet>
-          <Input
+          <LargeInput
             {...register('email', { required: 'Email을 입력해주세요.' })}
             placeholder="Email"
             autoComplete="email"
           />
         </FieldSet>
         <FieldSet>
-          <Input
+          <LargeInput
             {...register('password', {
               required: 'Password를 입력해주세요.',
             })}

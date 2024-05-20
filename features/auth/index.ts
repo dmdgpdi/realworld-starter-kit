@@ -1,2 +1,2 @@
-export { LoginForm } from './ui/loginForm/LoginForm';
-export { RegisterForm } from './ui/registerForm/RegisterForm';
+export { LoginForm } from '@/features/auth/login';
+export { RegisterForm } from '@/features/auth/register';

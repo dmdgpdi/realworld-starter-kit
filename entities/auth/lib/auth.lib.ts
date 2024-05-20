@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { AuthError, LoginUserErrorMessage } from './auth.type';
+import { AuthError, LoginUserErrorMessage } from '../auth.type';
 
 const parseAuthError = (error: {
   [key: string]: string[];
@@ -37,4 +37,23 @@ const getClientAuthCookie = () => {
   return Cookies.get('auth');
 };
 
-export { parseAuthError, isError, setClientAuthCookie, getClientAuthCookie };
+const compareHashString = (originHash: string, inputHash: string) => {
+  console.log(`origin: ${originHash}`);
+  console.log(`input: ${inputHash}`);
+  console.log(originHash === inputHash);
+
+  return originHash === inputHash;
+};
+
+const FormDataEntryValueToString = (formData: FormDataEntryValue) => {
+  return formData instanceof File ? '' : formData;
+};
+
+export {
+  parseAuthError,
+  isError,
+  setClientAuthCookie,
+  getClientAuthCookie,
+  compareHashString,
+  FormDataEntryValueToString,
+};

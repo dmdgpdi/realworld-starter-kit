@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-
 import { ContentPageLayout } from '@/shared/ui';
 import {
   AuthContentLayout,

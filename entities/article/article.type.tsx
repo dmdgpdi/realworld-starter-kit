@@ -1,3 +1,9 @@
+import { z } from 'zod';
+import {
+  ArticleRequestSchema,
+  UpdateArticleRequestSchema,
+} from './article.schema';
+
 type AuthorType = {
   username: string;
   bio: string;
@@ -23,6 +29,19 @@ type ArticleListType = {
   articlesCount: number;
 };
 
+type ArticleRequest = z.infer<typeof ArticleRequestSchema>;
+
+type ArticleResponse = {
+  article: ArticleType;
+};
+
+type ArticleListResponse = {
+  articles: ArticleType[];
+  articlesCount: number;
+};
+
+type UpdateArticleRequest = z.infer<typeof UpdateArticleRequestSchema>;
+
 type Query = {
   tag?: string;
   author?: string;
@@ -33,4 +52,14 @@ type Query = {
 
 type FeedParameter = Pick<Query, 'offset' | 'limit'>;
 
-export type { AuthorType, ArticleType, ArticleListType, Query, FeedParameter };
+export type {
+  AuthorType,
+  ArticleType,
+  ArticleListType,
+  Query,
+  FeedParameter,
+  ArticleResponse,
+  ArticleRequest,
+  UpdateArticleRequest,
+  ArticleListResponse,
+};

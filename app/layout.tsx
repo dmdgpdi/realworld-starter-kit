@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import BootStrapProvider from '@/app/bootStrapProvider';
 import { Header } from '@/widgets/header';
+import { ToastContainer, toastContext } from '@/entities/toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,10 +20,15 @@ export default function RootLayout({
       <head></head>
       <body className={inter.className}>
         <BootStrapProvider>
-          <Header />
-          {children}
+          <toastContext.ToastStoreProvider>
+            <Header />
+            {children}
+            <ToastContainer />
+          </toastContext.ToastStoreProvider>
         </BootStrapProvider>
       </body>
     </html>
   );
 }
+
+//

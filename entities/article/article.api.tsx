@@ -1,13 +1,22 @@
-import { BASE_URL, API } from '@/shared/api';
+'use server';
 
+import { revalidatePath } from 'next/cache';
+import { BASE_URL, API, checkError } from '@/shared/api';
 import { objectLength } from '@/shared/lib';
-import { ArticleListType, FeedParameter, Query } from './article.type';
+import {
+  ArticleListResponse,
+  ArticleRequest,
+  ArticleResponse,
+  FeedParameter,
+  Query,
+  UpdateArticleRequest,
+} from './article.type';
 import { appendQueryString } from './article.lib';
 import { ARTICLES_PER_PAGE } from './article.constant';
 
 const getArticleList = async (
   query: Query = { limit: ARTICLES_PER_PAGE },
-): Promise<ArticleListType> => {
+): Promise<ArticleListResponse> => {
   let url = `${BASE_URL}/${API.ARTICLES}`;
 
   if (objectLength(query)) {
@@ -16,11 +25,7 @@ const getArticleList = async (
 
   const res = await fetch(url, { cache: 'no-store' });
 
-  if (!res.ok) {
-    throw new Error(
-      `${res.status} 번 ${res.statusText} error 데이터 불러오기 실패`,
-    );
-  }
+  checkError(res);
 
   return res.json();
 };
@@ -28,7 +33,7 @@ const getArticleList = async (
 const getFeedList = async (
   feedParameter: FeedParameter,
   token: string,
-): Promise<ArticleListType> => {
+): Promise<ArticleListResponse> => {
   let url = `${BASE_URL}/${API.ARTICLES}/${API.FEED}`;
 
   if (objectLength(feedParameter)) {
@@ -42,13 +47,128 @@ const getFeedList = async (
     },
   });
 
-  if (!res.ok) {
-    throw new Error(
-      `${res.status} 번 ${res.statusText} error 데이터 불러오기 실패`,
-    );
-  }
+  checkError(res);
 
   return res.json();
 };
 
-export { getArticleList, getFeedList };
+const getArticle = async (articleSlug: string): Promise<ArticleResponse> => {
+  const url = `${BASE_URL}/${API.ARTICLES}/${articleSlug}`;
+
+  const res = await fetch(url, {
+    cache: 'no-store',
+  });
+
+  checkError(res);
+
+  return res.json();
+};
+
+const postArticle = async (article: ArticleRequest, token: string) => {
+  const url = `${BASE_URL}/${API.ARTICLES}`;
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      article,
+    }),
+  });
+
+  revalidatePath(`${BASE_URL}/${API.ARTICLES}`);
+  checkError(res);
+
+  return res.json();
+};
+
+const putArticle = async (
+  article: UpdateArticleRequest,
+  articleSlug: string,
+  token: string,
+) => {
+  const url = `${BASE_URL}/${API.ARTICLES}/${articleSlug}`;
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      article,
+    }),
+  });
+
+  revalidatePath(`${BASE_URL}/${API.ARTICLES}`);
+  checkError(res);
+
+  return res.json();
+};
+
+const deleteArticle = async (articleSlug: string, token: string) => {
+  const url = `${BASE_URL}/${API.ARTICLES}/${articleSlug}`;
+
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+  });
+  revalidatePath(`${BASE_URL}/${API.ARTICLES}`);
+  checkError(res);
+};
+
+const postFavoriteArticle = async (
+  articleSlug: string,
+  token: string,
+): Promise<ArticleResponse> => {
+  const url = `
+  ${BASE_URL}/${API.ARTICLES}/${articleSlug}/${API.FAVORITE}`;
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+  });
+
+  checkError(res);
+
+  return res.json();
+};
+
+const postUnfavoriteArticle = async (
+  articleSlug: string,
+  token: string,
+): Promise<ArticleResponse> => {
+  const url = `
+  ${BASE_URL}/${API.ARTICLES}/${articleSlug}/${API.FAVORITE}`;
+
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+  });
+
+  checkError(res);
+
+  return res.json();
+};
+
+export {
+  getArticle,
+  postArticle,
+  putArticle,
+  deleteArticle,
+  postFavoriteArticle,
+  postUnfavoriteArticle,
+  getArticleList,
+  getFeedList,
+};

@@ -1,6 +1,6 @@
-import { ArticleConstant } from '@/entities/article';
-import { appendHref } from '@/shared/lib';
 import Link from 'next/link';
+import { appendHref } from '@/shared/lib';
+import { ArticleConstant } from '@/entities/article';
 
 function PaginationItem({ href, page, isActive }: PaginationItemProps) {
   const className = isActive === true ? 'page-item active' : 'page-item';
@@ -19,7 +19,8 @@ export function Pagination({
   currentPage,
   articlesCount,
 }: PaginationProps) {
-  const hasNextPage = ArticleConstant.ARTICLES_PER_PAGE <= articlesCount;
+  const hasNextPage =
+    ArticleConstant.ARTICLES_PER_PAGE * currentPage <= articlesCount;
 
   return (
     <ul className="pagination">

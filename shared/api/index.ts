@@ -12,6 +12,22 @@ enum API {
   USERS = 'users',
   USER = 'user',
   LOGIN = 'login',
+  COMMENTS = 'comments',
+  FAVORITE = 'favorite',
 }
 
-export { BASE_URL, API };
+const checkError = (response: Response) => {
+  if (!response.ok) {
+    throw new Error(`${response.status} 번 ${response.statusText}`);
+  }
+};
+
+type Author = {
+  username: string;
+  bio: string;
+  image: string;
+  following: boolean;
+};
+
+export { BASE_URL, API, checkError };
+export type { Author };

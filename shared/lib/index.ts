@@ -28,6 +28,16 @@ const isHrefEqualPathname = (href: string, pathname: string) => {
   return href === pathname;
 };
 
+const isEmptyString = (text: string) => {
+  const trimText = text.trim();
+
+  if (trimText.length === 0) {
+    return true;
+  }
+
+  return false;
+};
+
 export {
   objectLength,
   isZero,
@@ -35,4 +45,5 @@ export {
   appendHref,
   appendUrl,
   isHrefEqualPathname,
+  isEmptyString,
 };

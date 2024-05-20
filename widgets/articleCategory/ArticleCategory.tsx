@@ -1,19 +1,17 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { useParams, usePathname } from 'next/navigation';
+import { NavItem, NavLink } from '@/shared/ui';
 import { authLib } from '@/entities/auth';
 import { tagType } from '@/entities/tag';
-import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
 
 function ArticleCategory() {
   const [hasToken, setHasToken] = useState(false);
   const { tag } = useParams<{ tag: tagType.Tag; feed: string }>();
   const pathname = usePathname();
   const urlIsFeed = pathname.includes('feed');
-
-  const feedClassName = urlIsFeed ? 'nav-link active' : 'nav-link';
-  const articleClassName = tag || urlIsFeed ? 'nav-link' : 'nav-link active';
+  const urlIsGlobalFeed = !tag && !urlIsFeed;
 
   useEffect(() => {
     const token = authLib.getClientAuthCookie();
@@ -30,23 +28,21 @@ function ArticleCategory() {
     <div className="feed-toggle">
       <nav className="nav nav-pills outline-active">
         {hasToken && (
-          <li className="nav-item">
-            <Link className={feedClassName} href="/feed">
+          <NavItem>
+            <NavLink isActive={urlIsFeed} href="/feed">
               Your Feed
-            </Link>
-          </li>
+            </NavLink>
+          </NavItem>
         )}
-        <li className="nav-item">
-          <Link className={articleClassName} href="/">
+        <NavItem>
+          <NavLink isActive={urlIsGlobalFeed} href="/">
             Global Feed
-          </Link>
-        </li>
+          </NavLink>
+        </NavItem>
         {tag && (
-          <li className="nav-item">
-            <Link className="nav-link active" href="">
-              # {tag}
-            </Link>
-          </li>
+          <NavItem>
+            <NavLink isActive={true}># {tag}</NavLink>
+          </NavItem>
         )}
       </nav>
     </div>

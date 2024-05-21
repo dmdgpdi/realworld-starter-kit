@@ -23,7 +23,7 @@ type AuthErrorResponse = {
   errors: AuthError;
 };
 
-type UserInfor = {
+type User = {
   email: string;
   token: string;
   username: string;
@@ -32,7 +32,7 @@ type UserInfor = {
 };
 
 type UserInforResponse = {
-  user: UserInfor;
+  user: User;
 };
 
 export type {
@@ -43,4 +43,5 @@ export type {
   AuthError,
   AuthErrorResponse,
   UserInforResponse,
+  User,
 };

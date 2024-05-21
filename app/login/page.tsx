@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-
 import { ContentPageLayout } from '@/shared/ui';
 import {
   AuthContentLayout,
@@ -12,7 +11,7 @@ import {
 import { LoginForm } from '@/features/auth';
 
 export default async function LoginPage() {
-  const isLoggedIn = await authServerAction.hasToken();
+  const isLoggedIn = await authServerAction.hasAuthCookie();
 
   if (isLoggedIn) {
     redirect('/');

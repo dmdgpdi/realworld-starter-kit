@@ -1,0 +1,1 @@
+export { ArticleCategory } from './ArticleCategory';

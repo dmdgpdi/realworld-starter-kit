@@ -1,0 +1,1 @@
+export { ArticleBanner } from './ArticleBanner';

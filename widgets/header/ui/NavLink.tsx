@@ -1,25 +1,17 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
+import type { NavLinkProps } from '@/shared/ui';
+import { NavLink as NavLinkLayout } from '@/shared/ui';
 import { isActiveLink } from '../header.lib';
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-
-export function NavLink({ href, children }: NavLinkProps) {
+export function NavLink({ href = '', children }: NavLinkProps) {
   const pathname = usePathname();
-
-  const className = isActiveLink(href, pathname)
-    ? 'nav-link active'
-    : 'nav-link';
+  const isActive = isActiveLink(href, pathname);
 
   return (
-    <Link className={className} href={href}>
+    <NavLinkLayout isActive={isActive} href={href}>
       {children}
-    </Link>
+    </NavLinkLayout>
   );
 }
-
-type NavLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  href: string;
-  isActive?: boolean;
-};

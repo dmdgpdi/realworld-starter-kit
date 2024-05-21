@@ -11,6 +11,9 @@ const nextConfig = {
       {
         hostname: process.env.NEXT_PUBLIC_BASE_API,
       },
+      {
+        hostname: 'static.productionready.io',
+      },
     ],
   },
 };

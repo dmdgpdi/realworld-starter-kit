@@ -4,6 +4,7 @@ enum SubLink {
   PROFILE = '/profile',
   SETTING = '/setting',
   ARTICLE = '/article',
+  EDITOR = '/editor',
 }
 
 const isActiveMainLink = (href: string, pathname: string) => {

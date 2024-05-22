@@ -2,8 +2,8 @@
 
 import { useShallow } from 'zustand/react/shallow';
 import { ERROR_MESSAGE } from '@/shared/constant';
-import { CommonButton } from '@/shared/ui';
-import { ArticleIcon, Counter, articleApi } from '@/entities/article';
+import { CommonButton, CommonIcon } from '@/shared/ui';
+import { Counter, articleApi } from '@/entities/article';
 import { useAuth } from '@/entities/auth';
 import { toastContext } from '@/entities/toast';
 
@@ -51,7 +51,7 @@ function FavoriteArticleButton({
 
   return (
     <CommonButton outLineBorderColor="primary" onClick={postFavoriteArticle}>
-      <ArticleIcon icon="ion-heart"></ArticleIcon>
+      <CommonIcon icon="ion-heart"></CommonIcon>
       &nbsp; Favorite Post <Counter>({favoritesCount})</Counter>
     </CommonButton>
   );

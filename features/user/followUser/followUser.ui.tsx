@@ -1,6 +1,6 @@
 import { useShallow } from 'zustand/react/shallow';
 import { ERROR_MESSAGE } from '@/shared/constant';
-import { ArticleButton, ArticleIcon } from '@/entities/article';
+import { CommonButton, CommonIcon } from '@/shared/ui';
 import { useAuth } from '@/entities/auth';
 import { toastContext } from '@/entities/toast';
 import { userApi } from '@/entities/user';
@@ -32,10 +32,10 @@ function FollowUserButton({
   };
 
   return (
-    <ArticleButton outLineBorderColor="primary" onClick={followUser}>
-      <ArticleIcon icon="ion-plus-round"></ArticleIcon>
+    <CommonButton outLineBorderColor="primary" onClick={followUser}>
+      <CommonIcon icon="ion-plus-round"></CommonIcon>
       &nbsp; Follow {username}
-    </ArticleButton>
+    </CommonButton>
   );
 }
 

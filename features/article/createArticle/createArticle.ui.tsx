@@ -10,9 +10,10 @@ import {
   Input,
   SubmitButton,
   ResponsiveWidthContainer,
+  CommonIcon,
 } from '@/shared/ui';
 import { tagType } from '@/entities/tag';
-import { TextArea, ArticleIcon, articleLib } from '@/entities/article';
+import { TextArea, articleLib } from '@/entities/article';
 import { TagListLayout, TagSpan } from '@/entities/tag';
 import { createArticleAction } from './createArticle.serverAction';
 
@@ -99,7 +100,7 @@ function CreateArticleForm({ tagList }: CreateArticleFormProps) {
                   }}
                 >
                   {' '}
-                  <ArticleIcon icon="ion-close-round"></ArticleIcon> {tag}{' '}
+                  <CommonIcon icon="ion-close-round"></CommonIcon> {tag}{' '}
                 </TagSpan>
               ))}
             </TagListLayout>

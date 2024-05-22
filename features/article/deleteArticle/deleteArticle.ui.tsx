@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { useShallow } from 'zustand/react/shallow';
-import { CommonButton } from '@/shared/ui';
+import { CommonButton, CommonIcon } from '@/shared/ui';
 import { ERROR_MESSAGE } from '@/shared/constant';
 import { useAuth } from '@/entities/auth';
 import { toastContext } from '@/entities/toast';
-import { ArticleIcon, articleApi } from '@/entities/article';
+import { articleApi } from '@/entities/article';
 
 function DeleteArticleButton({ articleSlug }: DeleteArticleButtonProps) {
   const router = useRouter();
@@ -33,7 +33,7 @@ function DeleteArticleButton({ articleSlug }: DeleteArticleButtonProps) {
 
   return (
     <CommonButton outLineBorderColor="danger" onClick={deleteArticle}>
-      <ArticleIcon icon="ion-trash-a"></ArticleIcon> Delete Article
+      <CommonIcon icon="ion-trash-a"></CommonIcon> Delete Article
     </CommonButton>
   );
 }

@@ -79,14 +79,6 @@ function DateDescription({ children, ...otherProps }: SpanProps) {
   );
 }
 
-function ArticleIcon({ children, icon, ...otherProps }: ArticleIconProps) {
-  return (
-    <i className={icon} {...otherProps}>
-      {children}
-    </i>
-  );
-}
-
 function Counter({ children, ...otherProps }: SpanProps) {
   return (
     <span className="counter" {...otherProps}>
@@ -133,19 +125,9 @@ export {
   InforLayout,
   AuthorLink,
   DateDescription,
-  ArticleIcon,
   Counter,
   ArticleContentLayout,
   ArticleH2,
   TextArea,
   ArticlePreviewLayout,
-};
-
-type ArticleIconProps = LayoutProps & {
-  icon:
-    | 'ion-plus-round'
-    | 'ion-heart'
-    | 'ion-edit'
-    | 'ion-trash-a'
-    | 'ion-close-round';
 };

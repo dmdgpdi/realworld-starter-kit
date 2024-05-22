@@ -13,7 +13,6 @@ export {
   InforLayout,
   AuthorLink,
   DateDescription,
-  ArticleIcon,
   Counter,
   ArticleContentLayout,
   ArticleH2,

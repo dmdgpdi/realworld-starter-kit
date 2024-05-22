@@ -95,6 +95,14 @@ function CommonButton({
   );
 }
 
+function CommonIcon({ children, icon, ...otherProps }: CommonIconProps) {
+  return (
+    <i className={icon} {...otherProps}>
+      {children}
+    </i>
+  );
+}
+
 export {
   ContentPageLayout,
   ContainerLayout,
@@ -108,6 +116,7 @@ export {
   RowLayout,
   ResponsiveWidthContainer,
   CommonButton,
+  CommonIcon,
 };
 
 export {
@@ -139,4 +148,14 @@ type CommonButtonProps = ButtonProps & {
   outLineBorderColor: 'secondary' | 'primary' | 'danger';
   size?: 'pull-xs-right';
   actionBtn?: 'action-btn';
+};
+
+type CommonIconProps = LayoutProps & {
+  icon:
+    | 'ion-plus-round'
+    | 'ion-heart'
+    | 'ion-edit'
+    | 'ion-trash-a'
+    | 'ion-close-round'
+    | 'ion-gear-a';
 };

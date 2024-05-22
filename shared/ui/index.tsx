@@ -70,6 +70,31 @@ function RowLayout({ children, ...otherProps }: LayoutProps) {
   );
 }
 
+function ResponsiveWidthContainer({ children, ...otherProps }: LayoutProps) {
+  return (
+    <div className="col-md-10 offset-md-1 col-xs-12" {...otherProps}>
+      {children}
+    </div>
+  );
+}
+
+function CommonButton({
+  children,
+  outLineBorderColor,
+  size,
+  actionBtn,
+  ...otherProps
+}: CommonButtonProps) {
+  return (
+    <button
+      className={`btn btn-sm btn-outline-${outLineBorderColor} ${size} ${actionBtn}`}
+      {...otherProps}
+    >
+      {children}
+    </button>
+  );
+}
+
 export {
   ContentPageLayout,
   ContainerLayout,
@@ -81,6 +106,8 @@ export {
   SubmitButton,
   LogoFont,
   RowLayout,
+  ResponsiveWidthContainer,
+  CommonButton,
 };
 
 export {
@@ -107,3 +134,9 @@ export type FieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>;
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 export type NavItemProps = React.LiHTMLAttributes<HTMLLIElement>;
 export type NavProps = React.HTMLAttributes<HTMLElement>;
+
+type CommonButtonProps = ButtonProps & {
+  outLineBorderColor: 'secondary' | 'primary' | 'danger';
+  size?: 'pull-xs-right';
+  actionBtn?: 'action-btn';
+};

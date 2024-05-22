@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { CommonButton } from '@/shared/ui';
 import {
-  ArticleButton,
   ArticleIcon,
   ArticleMetaLayout,
   AuthorLink,
@@ -78,14 +78,14 @@ function ArticleMenu({
       {isAuthorEqualUser && (
         <>
           {' '}
-          <ArticleButton
+          <CommonButton
             outLineBorderColor="secondary"
             onClick={() => {
               router.push(`/editor/${articleSlug}`);
             }}
           >
             <ArticleIcon icon="ion-edit"></ArticleIcon> Edit Article
-          </ArticleButton>
+          </CommonButton>
           <DeleteArticleButton articleSlug={articleSlug} />
         </>
       )}

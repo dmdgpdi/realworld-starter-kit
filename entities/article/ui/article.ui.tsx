@@ -2,7 +2,6 @@ import type {
   LayoutProps,
   LinkProps,
   SpanProps,
-  ButtonProps,
   HeadingProps,
   TextareaProps,
 } from '@/shared/ui';
@@ -80,22 +79,6 @@ function DateDescription({ children, ...otherProps }: SpanProps) {
   );
 }
 
-function ArticleButton({
-  children,
-  outLineBorderColor,
-  size,
-  ...otherProps
-}: ArticleButtonProps) {
-  return (
-    <button
-      className={`btn btn-sm btn-outline-${outLineBorderColor} ${size}`}
-      {...otherProps}
-    >
-      {children}
-    </button>
-  );
-}
-
 function ArticleIcon({ children, icon, ...otherProps }: ArticleIconProps) {
   return (
     <i className={icon} {...otherProps}>
@@ -132,14 +115,6 @@ function TextArea({ ...props }: TextareaProps) {
   return <textarea className="form-control" rows={8} {...props}></textarea>;
 }
 
-function CreateArticleLayout({ children, ...otherProps }: LayoutProps) {
-  return (
-    <div className="col-md-10 offset-md-1 col-xs-12" {...otherProps}>
-      {children}
-    </div>
-  );
-}
-
 function ArticlePreviewLayout({ children, ...otherProps }: LayoutProps) {
   return (
     <article className="article-preview" {...otherProps}>
@@ -158,19 +133,12 @@ export {
   InforLayout,
   AuthorLink,
   DateDescription,
-  ArticleButton,
   ArticleIcon,
   Counter,
   ArticleContentLayout,
   ArticleH2,
   TextArea,
-  CreateArticleLayout,
   ArticlePreviewLayout,
-};
-
-type ArticleButtonProps = ButtonProps & {
-  outLineBorderColor: 'secondary' | 'primary' | 'danger';
-  size?: 'pull-xs-right';
 };
 
 type ArticleIconProps = LayoutProps & {

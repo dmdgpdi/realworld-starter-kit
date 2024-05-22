@@ -9,14 +9,10 @@ import {
   LargeInput,
   Input,
   SubmitButton,
+  ResponsiveWidthContainer,
 } from '@/shared/ui';
 import { tagType } from '@/entities/tag';
-import {
-  TextArea,
-  CreateArticleLayout,
-  ArticleIcon,
-  articleLib,
-} from '@/entities/article';
+import { TextArea, ArticleIcon, articleLib } from '@/entities/article';
 import { TagListLayout, TagSpan } from '@/entities/tag';
 import { createArticleAction } from './createArticle.serverAction';
 
@@ -59,7 +55,7 @@ function CreateArticleForm({ tagList }: CreateArticleFormProps) {
   };
 
   return (
-    <CreateArticleLayout>
+    <ResponsiveWidthContainer>
       <ErrorMessageUl>
         {errorList.map(error => (
           <li role="alert" key={error}>
@@ -111,7 +107,7 @@ function CreateArticleForm({ tagList }: CreateArticleFormProps) {
           <SubmitButton>Publish Article</SubmitButton>
         </fieldset>
       </form>
-    </CreateArticleLayout>
+    </ResponsiveWidthContainer>
   );
 }
 

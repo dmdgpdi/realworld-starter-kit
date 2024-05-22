@@ -2,12 +2,8 @@
 
 import { useShallow } from 'zustand/react/shallow';
 import { ERROR_MESSAGE } from '@/shared/constant';
-import {
-  ArticleButton,
-  ArticleIcon,
-  Counter,
-  articleApi,
-} from '@/entities/article';
+import { CommonButton } from '@/shared/ui';
+import { ArticleIcon, Counter, articleApi } from '@/entities/article';
 import { useAuth } from '@/entities/auth';
 import { toastContext } from '@/entities/toast';
 
@@ -42,24 +38,24 @@ function UnfavoriteArticleButton({
 
   if (isSmall) {
     return (
-      <ArticleButton
+      <CommonButton
         outLineBorderColor="secondary"
         size="pull-xs-right"
         onClick={postUnfavoriteArticle}
       >
         <i className="ion-heart"></i>
-      </ArticleButton>
+      </CommonButton>
     );
   }
 
   return (
-    <ArticleButton
+    <CommonButton
       outLineBorderColor="secondary"
       onClick={postUnfavoriteArticle}
     >
       <ArticleIcon icon="ion-heart"></ArticleIcon>
       &nbsp; Unfavorite Post <Counter>({favoritesCount})</Counter>
-    </ArticleButton>
+    </CommonButton>
   );
 }
 

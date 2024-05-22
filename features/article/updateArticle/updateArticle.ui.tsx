@@ -9,15 +9,11 @@ import {
   LargeInput,
   Input,
   SubmitButton,
+  ResponsiveWidthContainer,
 } from '@/shared/ui';
-import {
-  TextArea,
-  CreateArticleLayout,
-  articleTypes,
-} from '@/entities/article';
+import { TextArea, articleTypes } from '@/entities/article';
 import { updateArticleAction } from './updateArticle.serverAction';
 
-// TODO: hidden input 암호화하기.
 function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
   const router = useRouter();
   const { title, description, body, slug } = article;
@@ -38,7 +34,7 @@ function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
   }, [state, router]);
 
   return (
-    <CreateArticleLayout>
+    <ResponsiveWidthContainer>
       <ErrorMessageUl>
         {errorList.map(error => (
           <li role="alert" key={error}>
@@ -78,7 +74,7 @@ function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
           <SubmitButton>Publish Article</SubmitButton>
         </fieldset>
       </form>
-    </CreateArticleLayout>
+    </ResponsiveWidthContainer>
   );
 }
 

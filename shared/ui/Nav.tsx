@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { LinkProps, NavItemProps, LayoutProps, UlProps } from '.';
+import { LinkProps, NavItemProps, LayoutProps, UlProps, NavProps } from '.';
 
 export function Nav({ children, ...otherProps }: LayoutProps) {
   return (
@@ -50,6 +50,14 @@ export function NavLink({
     <Link className={className} {...otherProps} href={href}>
       {children}
     </Link>
+  );
+}
+
+export function CategoryNav({ children, ...otherProps }: NavProps) {
+  return (
+    <nav className="nav nav-pills outline-active" {...otherProps}>
+      {children}
+    </nav>
   );
 }
 

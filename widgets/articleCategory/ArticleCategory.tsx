@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, usePathname } from 'next/navigation';
-import { NavItem, NavLink } from '@/shared/ui';
+import { NavItem, NavLink, FeedToggleLayout, CategoryNav } from '@/shared/ui';
 import { authLib } from '@/entities/auth';
 import { tagType } from '@/entities/tag';
 
@@ -25,8 +25,8 @@ function ArticleCategory() {
   }, []);
 
   return (
-    <div className="feed-toggle">
-      <nav className="nav nav-pills outline-active">
+    <FeedToggleLayout>
+      <CategoryNav>
         {hasToken && (
           <NavItem>
             <NavLink isActive={urlIsFeed} href="/feed">
@@ -44,8 +44,8 @@ function ArticleCategory() {
             <NavLink isActive={true}># {tag}</NavLink>
           </NavItem>
         )}
-      </nav>
-    </div>
+      </CategoryNav>
+    </FeedToggleLayout>
   );
 }
 

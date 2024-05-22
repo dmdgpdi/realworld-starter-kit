@@ -103,6 +103,14 @@ function CommonIcon({ children, icon, ...otherProps }: CommonIconProps) {
   );
 }
 
+function FeedToggleLayout({ children, ...otherProps }: LayoutProps) {
+  return (
+    <div className="feed-toggle" {...otherProps}>
+      {children}
+    </div>
+  );
+}
+
 export {
   ContentPageLayout,
   ContainerLayout,
@@ -117,6 +125,7 @@ export {
   ResponsiveWidthContainer,
   CommonButton,
   CommonIcon,
+  FeedToggleLayout,
 };
 
 export {
@@ -126,6 +135,7 @@ export {
   NavItem,
   NavItemList,
   NavLink,
+  CategoryNav,
 } from './Nav';
 
 export type { NavLinkProps } from './Nav';

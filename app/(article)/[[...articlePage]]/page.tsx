@@ -20,13 +20,15 @@ export default async function Home({ params }: HomeProps) {
   const currentPage = articleLib.getCorrectPage(params.articlePage);
   const offset = currentPage - 1;
 
-  const { articles: articleList, articlesCount } =
-    await articleApi.getArticleList({
+  const [articleResponse, tagResponse] = await Promise.all([
+    articleApi.getArticleList({
       offset: offset * ArticleConstant.ARTICLES_PER_PAGE,
       limit: ArticleConstant.ARTICLES_PER_PAGE,
-    });
-
-  const { tags: tagList } = await tagApi.getTagList();
+    }),
+    tagApi.getTagList(),
+  ]);
+  const { articles: articleList, articlesCount } = articleResponse;
+  const { tags: tagList } = tagResponse;
 
   return (
     <ArticleListPageLayout>

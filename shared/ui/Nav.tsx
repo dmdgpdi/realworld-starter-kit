@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { LinkProps, NavItemProps, LayoutProps, UlProps, NavProps } from '.';
+import { LinkProps, ListItemProps, LayoutProps, UlProps, NavProps } from '.';
 
 export function Nav({ children, ...otherProps }: LayoutProps) {
   return (
@@ -30,16 +30,23 @@ export function NavIcon({ iconName, ...otherProps }: NavIconProps) {
   return <i className={iconName} {...otherProps}></i>;
 }
 
-export function NavItem({ children, ...otherProps }: NavItemProps) {
+export function NavItem({
+  isShow = true,
+  children,
+  ...otherProps
+}: NavItemProps) {
   return (
-    <li className="nav-item" {...otherProps}>
-      {children}
-    </li>
+    isShow && (
+      <li className="nav-item" {...otherProps}>
+        {children}
+      </li>
+    )
   );
 }
 
 export function NavLink({
   isActive = false,
+
   href = '',
   children,
   ...otherProps
@@ -63,6 +70,10 @@ export function CategoryNav({ children, ...otherProps }: NavProps) {
 
 type NavIconProps = LinkProps & {
   iconName: 'ion-compose' | 'ion-gear-a';
+};
+
+type NavItemProps = ListItemProps & {
+  isShow?: boolean;
 };
 
 export type NavLinkProps = LinkProps & {

@@ -23,8 +23,22 @@ const isActiveMainLink = (href: string, pathname: string) => {
   return true;
 };
 
+const isActiveProfileLink = (href: string, pathname: string) => {
+  const isProfileLink = href.startsWith('/profile');
+
+  if (!isProfileLink) {
+    return false;
+  }
+
+  return pathname.startsWith('/profile');
+};
+
 const isActiveLink = (href: string, pathname: string) => {
-  return href === pathname || isActiveMainLink(href, pathname);
+  return (
+    href === pathname ||
+    isActiveMainLink(href, pathname) ||
+    isActiveProfileLink(href, pathname)
+  );
 };
 
 export { isActiveLink };

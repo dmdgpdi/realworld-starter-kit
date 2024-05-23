@@ -151,7 +151,7 @@ export type HeadingProps = React.HTMLAttributes<HTMLHeadingElement>;
 export type UlProps = React.HTMLAttributes<HTMLUListElement>;
 export type FieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>;
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
-export type NavItemProps = React.LiHTMLAttributes<HTMLLIElement>;
+export type ListItemProps = React.LiHTMLAttributes<HTMLLIElement>;
 export type NavProps = React.HTMLAttributes<HTMLElement>;
 export type ImageProps = React.ImgHTMLAttributes<HTMLImageElement>;
 

@@ -3,15 +3,32 @@
 import { useState, useEffect } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import { NavItem, NavLink, FeedToggleLayout, CategoryNav } from '@/shared/ui';
+import { decodeUrl } from '@/shared/lib';
 import { authLib } from '@/entities/auth';
 import { tagType } from '@/entities/tag';
+import { determineUrlSatus } from './articleCategory.lib';
 
-function ArticleCategory() {
-  const [hasToken, setHasToken] = useState(false);
-  const { tag } = useParams<{ tag: tagType.Tag; feed: string }>();
+function ArticleCategory({
+  articleCategoryItem = { article: true, feedArticle: true, tagArticle: true },
+}: ArticleCategoryProps) {
+  const {
+    article = false,
+    feedArticle = false,
+    tagArticle = false,
+    userArticle = false,
+    userFavoritedArticle = false,
+  } = articleCategoryItem;
+
+  const { tag, username: initialUsername } = useParams<{
+    tag: tagType.Tag;
+    feed: string;
+    username: string;
+  }>();
+  const username = decodeUrl(initialUsername);
   const pathname = usePathname();
-  const urlIsFeed = pathname.includes('feed');
-  const urlIsGlobalFeed = !tag && !urlIsFeed;
+  const { urlIsFeed, urlIsGlobalFeed, urlIsUser, urlIsUserFavorited } =
+    determineUrlSatus(pathname, { tag: tag });
+  const [hasToken, setHasToken] = useState(false);
 
   useEffect(() => {
     const token = authLib.getClientAuthCookie();
@@ -28,25 +45,54 @@ function ArticleCategory() {
     <FeedToggleLayout>
       <CategoryNav>
         {hasToken && (
-          <NavItem>
+          <NavItem isShow={feedArticle}>
             <NavLink isActive={urlIsFeed} href="/feed">
               Your Feed
             </NavLink>
           </NavItem>
         )}
-        <NavItem>
+
+        <NavItem isShow={article}>
           <NavLink isActive={urlIsGlobalFeed} href="/">
             Global Feed
           </NavLink>
         </NavItem>
+
         {tag && (
-          <NavItem>
+          <NavItem isShow={tagArticle}>
             <NavLink isActive={true}># {tag}</NavLink>
           </NavItem>
         )}
+
+        <NavItem isShow={userArticle}>
+          <NavLink isActive={urlIsUser} href={`/profile/${username}`}>
+            My Articles
+          </NavLink>
+        </NavItem>
+
+        <NavItem isShow={userFavoritedArticle}>
+          <NavLink
+            isActive={urlIsUserFavorited}
+            href={`/profile/${username}/favorited`}
+          >
+            Favorited Articles
+          </NavLink>
+        </NavItem>
       </CategoryNav>
     </FeedToggleLayout>
   );
 }
 
 export { ArticleCategory };
+
+type ArticleCategoryItemProps = {
+  article?: boolean;
+  feedArticle?: boolean;
+  tagArticle?: boolean;
+  userArticle?: boolean;
+  userFavoritedArticle?: boolean;
+};
+
+type ArticleCategoryProps = {
+  articleCategoryItem?: ArticleCategoryItemProps;
+};

@@ -45,6 +45,7 @@ function FavoriteArticleButton({
         onClick={postFavoriteArticle}
       >
         <i className="ion-heart"></i>
+        {` ${favoritesCount}`}
       </CommonButton>
     );
   }

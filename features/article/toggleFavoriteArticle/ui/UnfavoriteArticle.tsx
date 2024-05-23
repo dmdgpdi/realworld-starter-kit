@@ -44,6 +44,7 @@ function UnfavoriteArticleButton({
         onClick={postUnfavoriteArticle}
       >
         <i className="ion-heart"></i>
+        {` ${favoritesCount}`}
       </CommonButton>
     );
   }

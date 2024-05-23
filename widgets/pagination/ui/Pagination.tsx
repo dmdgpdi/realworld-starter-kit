@@ -21,14 +21,19 @@ export function Pagination({
 }: PaginationProps) {
   const hasNextPage =
     ArticleConstant.ARTICLES_PER_PAGE * currentPage <= articlesCount;
+  const totalPage = articlesCount / ArticleConstant.ARTICLES_PER_PAGE + 1;
 
   return (
     <ul className="pagination">
+      {2 < currentPage && <PaginationItem href={href} page={currentPage - 2} />}
       {currentPage !== 1 && (
         <PaginationItem href={href} page={currentPage - 1} />
       )}
       <PaginationItem href={href} page={currentPage} isActive={true} />
       {hasNextPage && <PaginationItem href={href} page={currentPage + 1} />}
+      {currentPage + 2 <= totalPage && (
+        <PaginationItem href={href} page={currentPage + 2} />
+      )}
     </ul>
   );
 }

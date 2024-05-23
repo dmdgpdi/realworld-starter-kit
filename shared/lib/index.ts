@@ -38,6 +38,10 @@ const isEmptyString = (text: string) => {
   return false;
 };
 
+const decodeUrl = (encodedString: string) => {
+  return decodeURIComponent(encodedString);
+};
+
 export {
   objectLength,
   isZero,
@@ -46,4 +50,5 @@ export {
   appendUrl,
   isHrefEqualPathname,
   isEmptyString,
+  decodeUrl,
 };

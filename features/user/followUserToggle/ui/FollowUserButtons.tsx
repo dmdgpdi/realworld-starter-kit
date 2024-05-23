@@ -5,16 +5,16 @@ import { useAuth } from '@/entities/auth';
 import { toastContext } from '@/entities/toast';
 import { userApi } from '@/entities/user';
 
-function UnfollowUserButton({
+function FollowUserButton({
   username,
   toggleFollowingState,
-}: UnfollowUserButtonProps) {
+}: FollowUserButtonProps) {
   const { token } = useAuth();
   const createToast = toastContext.useToastStore(
     useShallow(state => state.createToast),
   );
 
-  const unfollowUser = async () => {
+  const followUser = async () => {
     if (!token) {
       createToast({ message: ERROR_MESSAGE.AUTH_REQUIRED });
       return;
@@ -22,7 +22,7 @@ function UnfollowUserButton({
 
     try {
       toggleFollowingState();
-      await userApi.deleteUserFollow(username, token);
+      await userApi.postUserFollow(username, token);
     } catch (error) {
       if (error instanceof Error) {
         createToast({ message: error.message });
@@ -32,16 +32,37 @@ function UnfollowUserButton({
   };
 
   return (
-    <CommonButton outLineBorderColor="secondary" onClick={unfollowUser}>
+    <CommonButton outLineBorderColor="primary" onClick={followUser}>
       <CommonIcon icon="ion-plus-round"></CommonIcon>
-      &nbsp; Unfollow {username}
+      &nbsp; Follow {username}
     </CommonButton>
   );
 }
 
-export { UnfollowUserButton };
+function FollowUserProfileButton({
+  username,
+  followUserFunc,
+}: FollowUserProfileButtonProps) {
+  return (
+    <CommonButton
+      outLineBorderColor="secondary"
+      actionBtn="action-btn"
+      onClick={followUserFunc}
+    >
+      <CommonIcon icon="ion-plus-round"></CommonIcon>
+      &nbsp; follow {username}
+    </CommonButton>
+  );
+}
 
-type UnfollowUserButtonProps = {
+export { FollowUserButton, FollowUserProfileButton };
+
+type FollowUserButtonProps = {
   username: string;
   toggleFollowingState: () => void;
+};
+
+type FollowUserProfileButtonProps = {
+  username: string;
+  followUserFunc: () => Promise<void>;
 };

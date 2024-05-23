@@ -153,6 +153,7 @@ export type FieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>;
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 export type NavItemProps = React.LiHTMLAttributes<HTMLLIElement>;
 export type NavProps = React.HTMLAttributes<HTMLElement>;
+export type ImageProps = React.ImgHTMLAttributes<HTMLImageElement>;
 
 type CommonButtonProps = ButtonProps & {
   outLineBorderColor: 'secondary' | 'primary' | 'danger';

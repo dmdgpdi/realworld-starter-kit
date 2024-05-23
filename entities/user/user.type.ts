@@ -1,4 +1,4 @@
-type User = {
+type Profile = {
   username: 'string';
   bio: 'string';
   image: 'string';
@@ -6,7 +6,7 @@ type User = {
 };
 
 type ProfileResponse = {
-  profile: User;
+  profile: Profile;
 };
 
-export type { User, ProfileResponse };
+export type { Profile, ProfileResponse };

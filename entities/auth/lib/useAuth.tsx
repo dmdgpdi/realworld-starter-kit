@@ -24,7 +24,6 @@ const useAuth = () => {
 
     const getUser = async () => {
       const { user } = await getUserInfor(cookie);
-      //console.log(user);
 
       setUserInformation(user);
       setIsLoggedIn(true);

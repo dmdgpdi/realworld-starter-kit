@@ -48,7 +48,22 @@ function EditorPageLayout({ children, ...otherProps }: LayoutProps) {
   );
 }
 
-export { AuthContentLayout, AuthH1, AuthPageLayout, AuthP, EditorPageLayout };
+function SettingPageLayout({ children, ...otherProps }: LayoutProps) {
+  return (
+    <div className="settings-page" {...otherProps}>
+      {children}
+    </div>
+  );
+}
+
+export {
+  AuthContentLayout,
+  AuthH1,
+  AuthPageLayout,
+  AuthP,
+  EditorPageLayout,
+  SettingPageLayout,
+};
 
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
 type H1Props = React.HTMLAttributes<HTMLHeadingElement>;

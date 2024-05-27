@@ -11,9 +11,10 @@ import {
   SubmitButton,
   ResponsiveWidthContainer,
   CommonIcon,
+  TextArea,
 } from '@/shared/ui';
 import { tagType } from '@/entities/tag';
-import { TextArea, articleLib } from '@/entities/article';
+import { articleLib } from '@/entities/article';
 import { TagListLayout, TagSpan } from '@/entities/tag';
 import { createArticleAction } from './createArticle.serverAction';
 

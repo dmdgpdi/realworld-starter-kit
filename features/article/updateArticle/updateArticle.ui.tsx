@@ -10,8 +10,9 @@ import {
   Input,
   SubmitButton,
   ResponsiveWidthContainer,
+  TextArea,
 } from '@/shared/ui';
-import { TextArea, articleTypes } from '@/entities/article';
+import { articleTypes } from '@/entities/article';
 import { updateArticleAction } from './updateArticle.serverAction';
 
 function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {

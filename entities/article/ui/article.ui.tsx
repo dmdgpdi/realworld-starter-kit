@@ -3,7 +3,6 @@ import type {
   LinkProps,
   SpanProps,
   HeadingProps,
-  TextareaProps,
 } from '@/shared/ui';
 import Link from 'next/link';
 
@@ -103,10 +102,6 @@ function ArticleH2({ children, ...otherProps }: HeadingProps) {
   );
 }
 
-function TextArea({ ...props }: TextareaProps) {
-  return <textarea className="form-control" rows={8} {...props}></textarea>;
-}
-
 function ArticlePreviewLayout({ children, ...otherProps }: LayoutProps) {
   return (
     <article className="article-preview" {...otherProps}>
@@ -128,6 +123,5 @@ export {
   Counter,
   ArticleContentLayout,
   ArticleH2,
-  TextArea,
   ArticlePreviewLayout,
 };

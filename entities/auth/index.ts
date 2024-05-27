@@ -4,6 +4,7 @@ export {
   AuthPageLayout,
   AuthP,
   EditorPageLayout,
+  SettingPageLayout,
 } from './ui/auth.ui';
 export { AuthGuard } from './ui/AuthGuard';
 export { AuthorGuard } from './ui/AuthorGuard';

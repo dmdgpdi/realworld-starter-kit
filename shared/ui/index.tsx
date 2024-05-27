@@ -111,6 +111,20 @@ function FeedToggleLayout({ children, ...otherProps }: LayoutProps) {
   );
 }
 
+function FormContentLayout(props: LayoutProps) {
+  const { children, ...otherProps } = props;
+
+  return (
+    <div className="col-md-6 offset-md-3 col-xs-12" {...otherProps}>
+      {children}
+    </div>
+  );
+}
+
+function TextArea({ ...props }: TextareaProps) {
+  return <textarea className="form-control" rows={8} {...props}></textarea>;
+}
+
 export {
   ContentPageLayout,
   ContainerLayout,
@@ -126,6 +140,8 @@ export {
   CommonButton,
   CommonIcon,
   FeedToggleLayout,
+  FormContentLayout,
+  TextArea,
 };
 
 export {

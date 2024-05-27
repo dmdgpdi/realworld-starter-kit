@@ -16,7 +16,6 @@ export {
   Counter,
   ArticleContentLayout,
   ArticleH2,
-  TextArea,
   ArticlePreviewLayout,
 } from './ui/article.ui';
 export { ArticleBanner } from './ui/articleBanner';

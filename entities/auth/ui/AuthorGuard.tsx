@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getClientAuthCookie } from '../lib/auth.lib';
+import { getLocalStorageToken } from '../lib/auth.lib';
 import { authApi } from '..';
 
 function AuthorGuard({ authorUserName, children }: AuthorGuardProps) {
@@ -10,7 +10,7 @@ function AuthorGuard({ authorUserName, children }: AuthorGuardProps) {
   const [userIsAuthor, setUserIsAuthor] = useState(false);
 
   useEffect(() => {
-    const token = getClientAuthCookie();
+    const token = getLocalStorageToken();
 
     if (!token) {
       router.back();

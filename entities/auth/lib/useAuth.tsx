@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getClientAuthCookie } from './auth.lib';
 import { User } from '../auth.type';
 import { getUserInfor } from '../auth.api';
+import { getLocalStorageToken } from './auth.lib';
 
 const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,15 +15,15 @@ const useAuth = () => {
   };
 
   useEffect(() => {
-    const cookie = getClientAuthCookie();
-    setToken(cookie);
+    const localToken = getLocalStorageToken();
+    setToken(localToken);
 
-    if (!cookie) {
+    if (!localToken) {
       return;
     }
 
     const getUser = async () => {
-      const { user } = await getUserInfor(cookie);
+      const { user } = await getUserInfor(localToken);
 
       setUserInformation(user);
       setIsLoggedIn(true);

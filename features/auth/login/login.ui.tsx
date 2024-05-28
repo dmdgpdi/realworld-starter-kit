@@ -9,7 +9,13 @@ import {
   FieldSet,
   LargeInput,
 } from '@/shared/ui';
-import { authApi, authLib, authSchema, authType } from '@/entities/auth';
+import {
+  authApi,
+  authLib,
+  authSchema,
+  authType,
+  useAuthStore,
+} from '@/entities/auth';
 
 // TODO: 로그인 중 비밀번호 틀릴 시, 에러. -> 비밀번호 틀렸을 때 에러처리가 없음.
 export function LoginForm() {
@@ -21,8 +27,8 @@ export function LoginForm() {
   } = useForm<authType.LoginUser>({
     resolver: zodResolver(authSchema.LoginUserSchema),
   });
-
   const router = useRouter();
+  const login = useAuthStore(state => state.login);
 
   const onSubmit: SubmitHandler<authType.LoginUser> = async userData => {
     const res = await authApi.postLoginUser(userData);
@@ -38,9 +44,8 @@ export function LoginForm() {
       return;
     }
 
-    const { token } = res.user;
-    authLib.setClientAuthCookie(token);
-    router.refresh();
+    login(res.user);
+    router.push('/');
     return;
   };
 

@@ -8,6 +8,12 @@ export {
 } from './ui/auth.ui';
 export { AuthGuard } from './ui/AuthGuard';
 export { AuthorGuard } from './ui/AuthorGuard';
+export { NoAuthGuard } from './ui/NoAuthGuard';
+export {
+  AuthStoreProvider,
+  useAuthStore,
+  AuthLoader,
+} from './model/auth.provider';
 export type * as authType from './auth.type';
 export * as authSchema from './auth.schema';
 export * as authApi from './auth.api';

@@ -1,5 +1,7 @@
 import Cookies from 'js-cookie';
 import { AuthError, LoginUserErrorMessage } from '../auth.type';
+import { getLocalItemWithExpiry, setLocalItemWithExpiry } from '@/shared/lib';
+import { deleteLocalItem } from '@/shared/lib/localStorage';
 
 const parseAuthError = (error: {
   [key: string]: string[];
@@ -49,6 +51,30 @@ const FormDataEntryValueToString = (formData: FormDataEntryValue) => {
   return formData instanceof File ? '' : formData;
 };
 
+const getLocalStorageToken = () => {
+  const localToken = getLocalItemWithExpiry<{ token: string }>('token');
+
+  if (!localToken) {
+    return undefined;
+  }
+
+  return localToken.token;
+};
+
+const setLocalStorageToken = (token: string) => {
+  setLocalItemWithExpiry(
+    'token',
+    {
+      token: token,
+    },
+    { expiryInDay: 1 },
+  );
+};
+
+const deleteLocalStorageToken = () => {
+  deleteLocalItem('token');
+};
+
 export {
   parseAuthError,
   isError,
@@ -56,4 +82,7 @@ export {
   getClientAuthCookie,
   compareHashString,
   FormDataEntryValueToString,
+  getLocalStorageToken,
+  setLocalStorageToken,
+  deleteLocalStorageToken,
 };

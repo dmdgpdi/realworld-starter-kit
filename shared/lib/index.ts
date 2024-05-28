@@ -52,3 +52,5 @@ export {
   isEmptyString,
   decodeUrl,
 };
+
+export { getLocalItemWithExpiry, setLocalItemWithExpiry } from './localStorage';

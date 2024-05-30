@@ -42,6 +42,10 @@ const decodeUrl = (encodedString: string) => {
   return decodeURIComponent(encodedString);
 };
 
+const FormDataEntryValueToString = (formData: FormDataEntryValue) => {
+  return formData instanceof File ? '' : formData;
+};
+
 export {
   objectLength,
   isZero,
@@ -51,6 +55,7 @@ export {
   isHrefEqualPathname,
   isEmptyString,
   decodeUrl,
+  FormDataEntryValueToString,
 };
 
 export { getLocalItemWithExpiry, setLocalItemWithExpiry } from './localStorage';

@@ -9,12 +9,6 @@ type CreateUser = z.infer<typeof CreateUserSchema>;
 
 type LoginUser = z.infer<typeof LoginUserSchema>;
 
-type LoginUserErrorMessage = {
-  errors: {
-    string: string[];
-  };
-};
-
 type LoginUserResponse = z.infer<typeof LoginResponseSchema>;
 
 type AuthError = Partial<Record<keyof CreateUser, string[]>>;
@@ -38,7 +32,6 @@ type UserInforResponse = {
 export type {
   CreateUser,
   LoginUser,
-  LoginUserErrorMessage,
   LoginUserResponse,
   AuthError,
   AuthErrorResponse,

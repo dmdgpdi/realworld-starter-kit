@@ -1,9 +1,9 @@
 import { BASE_URL, API } from '@/shared/api';
 import { appendUrl } from '@/shared/lib';
+import { checkError } from '@/shared/api';
 import {
   LoginUser,
   LoginUserResponse,
-  LoginUserErrorMessage,
   CreateUser,
   AuthError,
   AuthErrorResponse,
@@ -35,7 +35,7 @@ const postRegisterUser = async (
 
 const postLoginUser = async (
   userData: LoginUser,
-): Promise<LoginUserResponse | LoginUserErrorMessage> => {
+): Promise<LoginUserResponse> => {
   const url = appendUrl(BASE_URL, API.USERS, API.LOGIN);
 
   const res = await fetch(url, {
@@ -48,14 +48,8 @@ const postLoginUser = async (
     }),
   });
 
-  if (!res.ok) {
-    const errorData: LoginUserErrorMessage = await res.json();
-    return errorData;
-  }
-
-  const value: LoginUserResponse = await res.json();
-
-  return value;
+  checkError(res);
+  return res.json();
 };
 
 const getUserInfor = async (token: string): Promise<UserInforResponse> => {

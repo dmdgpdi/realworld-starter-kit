@@ -39,6 +39,7 @@ const postComment = async (
 
   checkError(res);
 
+  revalidatePath(`${API.ARTICLES}/${articleSlug}`);
   return res.json();
 };
 

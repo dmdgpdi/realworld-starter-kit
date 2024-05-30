@@ -1,43 +1,44 @@
 'use server';
 
-import { authServerAction } from '@/entities/auth';
-import { commentApi } from '@/entities/comment';
-import { API } from '@/shared/api';
-import { isEmptyString } from '@/shared/lib';
-import { revalidatePath } from 'next/cache';
+import { commentApi, commentType } from '@/entities/comment';
+import { ValidationError } from '@/entities/validation';
+import {
+  validateCreateCommentForm,
+  validationErrorToFormState,
+  errorToFormState,
+  unknownToFormState,
+} from './createComment.lib';
 
-// TODO: articleTitle가 제대로 된 값인지 validate
-const postComment = async (currentState: any, formData: FormData) => {
-  const token = await authServerAction.getAuthCookie();
+const createCommentFormAction = async (
+  currentState: commentType.CommentFormState,
+  formData: FormData,
+): Promise<commentType.CommentFormState> => {
+  const { token = undefined } = currentState;
   const comment = (formData.get('comment') as string) ?? '';
-  const articleTitle = (formData.get('articleTitle') as string) ?? '';
-
-  if (!token) {
-    return {
-      message: 'Please log in first.',
-    };
-  }
-
-  if (isEmptyString(comment)) {
-    return {
-      message: 'Do not enter blanks.',
-    };
-  }
+  const articleSlug = (formData.get('articleSlug') as string) ?? '';
 
   try {
-    await commentApi.postComment(articleTitle, comment, token);
-    revalidatePath(`${API.ARTICLES}/${articleTitle}`);
-
-    return {
-      success: true,
-    };
+    validateCreateCommentForm(token, comment);
+    await commentApi.postComment(articleSlug, comment, token!);
   } catch (error) {
-    if (error instanceof Error) {
-      return {
-        message: error.message,
-      };
+    if (ValidationError.isValidationError(error)) {
+      const formState = validationErrorToFormState(error, articleSlug, token);
+      return formState;
     }
+
+    if (error instanceof Error) {
+      const formState = errorToFormState(error, articleSlug, token);
+      return formState;
+    }
+
+    return unknownToFormState(articleSlug, token);
   }
+
+  return {
+    ...currentState,
+    isSuccess: true,
+    errorList: [],
+  };
 };
 
-export { postComment };
+export { createCommentFormAction };

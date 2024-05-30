@@ -16,27 +16,27 @@ import {
 import { tagType } from '@/entities/tag';
 import { articleLib } from '@/entities/article';
 import { TagListLayout, TagSpan } from '@/entities/tag';
+import { useAuthStore } from '@/entities/auth';
 import { createArticleAction } from './createArticle.serverAction';
 
 function CreateArticleForm({ tagList }: CreateArticleFormProps) {
   const router = useRouter();
+  const userInfo = useAuthStore(state => state.userInfo);
   const [state, formAction] = useFormState(createArticleAction, {
+    token: userInfo?.token,
     isSuccess: false,
     errorList: [],
   });
-  const [errorList, setErrorList] = useState<string[]>([]);
   const [tagInputValue, setTagInputValue] = useState('');
+  const { isSuccess, errorList } = state;
   const { addText, deleteText } = articleLib;
 
   useEffect(() => {
-    if (state?.isSuccess === true) {
-      setErrorList([]);
+    if (isSuccess === true) {
       router.replace('/');
       return;
     }
-
-    setErrorList(state.errorList);
-  }, [state, router]);
+  }, [isSuccess, router]);
 
   const addTag = (tag: tagType.Tag) => {
     setTagInputValue(prev => addText(prev, tag));

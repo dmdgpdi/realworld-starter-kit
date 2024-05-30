@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { AuthError, LoginUserErrorMessage } from '../auth.type';
+import { AuthError } from '../auth.type';
 import { getLocalItemWithExpiry, setLocalItemWithExpiry } from '@/shared/lib';
 import { deleteLocalItem } from '@/shared/lib/localStorage';
 
@@ -25,10 +25,6 @@ const parseAuthError = (error: {
   }
 
   return parsedError;
-};
-
-const isError = (data: Object): data is LoginUserErrorMessage => {
-  return 'errors' in data;
 };
 
 const setClientAuthCookie = (data: string) => {
@@ -65,7 +61,6 @@ const deleteLocalStorageToken = () => {
 
 export {
   parseAuthError,
-  isError,
   setClientAuthCookie,
   getClientAuthCookie,
   getLocalStorageToken,

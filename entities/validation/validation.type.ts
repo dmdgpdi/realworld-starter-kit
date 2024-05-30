@@ -1,5 +1,5 @@
 type FormState = {
-  token: string | undefined;
+  token?: string;
   isSuccess: boolean;
   errorList: string[];
 };

@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from '@/shared/constant';
 import { FormState } from './validation.type';
 import { ValidationError } from './validation.model';
 
@@ -20,8 +21,35 @@ const createFormState = (
   };
 };
 
+const validationErrorToFormState = (
+  error: ValidationError,
+  token?: string,
+): FormState => {
+  const { isSuccess, errorList } = error;
+
+  return {
+    isSuccess,
+    errorList,
+    token,
+  };
+};
+
+const unknownToFormState = (token?: string): FormState => {
+  return {
+    isSuccess: false,
+    errorList: [ERROR_MESSAGE.UNKNOWN_ERROR],
+    token,
+  };
+};
+
 const hasToken = (token: string | undefined): token is string => {
   return typeof token === 'string';
 };
 
-export { compareHashString, createFormState, hasToken };
+export {
+  compareHashString,
+  createFormState,
+  hasToken,
+  validationErrorToFormState,
+  unknownToFormState,
+};

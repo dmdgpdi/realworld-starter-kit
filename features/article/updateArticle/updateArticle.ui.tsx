@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
@@ -13,26 +13,26 @@ import {
   TextArea,
 } from '@/shared/ui';
 import { articleTypes } from '@/entities/article';
+import { useAuthStore } from '@/entities/auth';
 import { updateArticleAction } from './updateArticle.serverAction';
 
 function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
   const router = useRouter();
   const { title, description, body, slug } = article;
+  const userInfo = useAuthStore(state => state.userInfo);
   const [state, formAction] = useFormState(updateArticleAction, {
+    token: userInfo?.token,
     isSuccess: false,
     errorList: [],
   });
-  const [errorList, setErrorList] = useState<string[]>([]);
+  const { isSuccess, errorList } = state;
 
   useEffect(() => {
-    if (state?.isSuccess === true) {
-      setErrorList([]);
+    if (isSuccess === true) {
       router.replace('/');
       return;
     }
-
-    setErrorList(state.errorList);
-  }, [state, router]);
+  }, [isSuccess, router]);
 
   return (
     <ResponsiveWidthContainer>

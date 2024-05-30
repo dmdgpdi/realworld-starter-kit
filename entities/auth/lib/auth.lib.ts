@@ -39,18 +39,6 @@ const getClientAuthCookie = () => {
   return Cookies.get('auth');
 };
 
-const compareHashString = (originHash: string, inputHash: string) => {
-  console.log(`origin: ${originHash}`);
-  console.log(`input: ${inputHash}`);
-  console.log(originHash === inputHash);
-
-  return originHash === inputHash;
-};
-
-const FormDataEntryValueToString = (formData: FormDataEntryValue) => {
-  return formData instanceof File ? '' : formData;
-};
-
 const getLocalStorageToken = () => {
   const localToken = getLocalItemWithExpiry<{ token: string }>('token');
 
@@ -80,8 +68,6 @@ export {
   isError,
   setClientAuthCookie,
   getClientAuthCookie,
-  compareHashString,
-  FormDataEntryValueToString,
   getLocalStorageToken,
   setLocalStorageToken,
   deleteLocalStorageToken,

@@ -1,5 +1,7 @@
 'use server';
 
+import { compareHashString } from './validation.lib';
+
 const createHashString = async (message: string) => {
   const key = process.env.ENCRYPTION_KEY;
   const encoder = new TextEncoder();
@@ -12,4 +14,10 @@ const createHashString = async (message: string) => {
   return hashHex;
 };
 
-export { createHashString };
+const validateSlugAndHashString = async (slug: string, hashString: string) => {
+  const slugHashString = await createHashString(slug);
+  const isEqualHash = compareHashString(slugHashString, hashString);
+  return isEqualHash;
+};
+
+export { createHashString, validateSlugAndHashString };

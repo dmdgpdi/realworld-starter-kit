@@ -18,7 +18,6 @@ type CommentResponse = {
 
 type CommentFormState = {
   articleSlug: string;
-  token?: string;
   isSuccess: boolean;
   errorList: string[];
 };

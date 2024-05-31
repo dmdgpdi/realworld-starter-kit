@@ -22,7 +22,6 @@ function CommentForm() {
   const authorURL = userInfo?.image ?? BASE_IMAGE_URL;
   const [formState, formAction] = useFormState(createCommentFormAction, {
     articleSlug,
-    token: userInfo?.token,
     isSuccess: true,
     errorList: [],
   });

@@ -1,6 +1,6 @@
 import { tagType } from '@/entities/tag';
 
-const determineUrlSatus = (
+const determineUrlStatus = (
   pathname: string,
   param: {
     tag?: tagType.Tag;
@@ -20,4 +20,4 @@ const determineUrlSatus = (
   return { urlIsFeed, urlIsUserFavorited, urlIsUser, urlIsGlobalFeed };
 };
 
-export { determineUrlSatus };
+export { determineUrlStatus };

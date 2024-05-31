@@ -19,4 +19,3 @@ export * as authSchema from './auth.schema';
 export * as authApi from './auth.api';
 export * as authLib from './lib/auth.lib';
 export * as authServerAction from './auth.serverAction';
-export { useAuth } from './lib/useAuth';

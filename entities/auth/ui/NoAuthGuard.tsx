@@ -1,25 +1,16 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { getLocalStorageToken } from '../lib/auth.lib';
-import { useEffect, useState } from 'react';
+import { getAuthCookie } from '../auth.serverAction';
+import { redirect } from 'next/navigation';
 
-function NoAuthGuard({ children }: NoAuthGuardProps) {
-  const router = useRouter();
-  const [isNoLoggedIn, setIsNoLoggedIn] = useState(false);
+async function NoAuthGuard({ children }: NoAuthGuardProps) {
+  const authToken = await getAuthCookie();
 
-  useEffect(() => {
-    const hasToken = getLocalStorageToken();
+  if (authToken) {
+    redirect('/');
+  }
 
-    if (hasToken) {
-      router.back();
-      return;
-    }
-
-    setIsNoLoggedIn(true);
-  }, [router]);
-
-  return isNoLoggedIn ? children : undefined;
+  return children;
 }
 
 export { NoAuthGuard };

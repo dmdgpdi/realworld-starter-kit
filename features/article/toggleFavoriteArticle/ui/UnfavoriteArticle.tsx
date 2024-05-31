@@ -4,8 +4,8 @@ import { useShallow } from 'zustand/react/shallow';
 import { ERROR_MESSAGE } from '@/shared/constant';
 import { CommonButton, CommonIcon } from '@/shared/ui';
 import { Counter, articleApi } from '@/entities/article';
-import { useAuth } from '@/entities/auth';
 import { toastContext } from '@/entities/toast';
+import { authServerAction } from '@/entities/auth';
 
 function UnfavoriteArticleButton({
   articleSlug,
@@ -14,19 +14,19 @@ function UnfavoriteArticleButton({
   decreaseFavoritesCount,
   isSmall,
 }: UnfavoriteArticleProps) {
-  const { token } = useAuth();
   const createToast = toastContext.useToastStore(
     useShallow(state => state.createToast),
   );
 
   const postUnfavoriteArticle = async () => {
-    if (!token) {
-      createToast({ message: ERROR_MESSAGE.AUTH_REQUIRED });
-      return;
-    }
-
     try {
       decreaseFavoritesCount();
+      const token = await authServerAction.getAuthCookie();
+
+      if (!token) {
+        throw new Error(ERROR_MESSAGE.AUTH_REQUIRED);
+      }
+
       await articleApi.postUnfavoriteArticle(articleSlug, token);
     } catch (error) {
       if (error instanceof Error) {

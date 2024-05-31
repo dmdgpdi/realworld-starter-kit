@@ -1,25 +1,27 @@
 'use server';
 
-import { articleApi, articleTypes } from '@/entities/article';
-import { ValidationError } from '@/entities/validation';
+import { articleApi } from '@/entities/article';
 import {
-  parseFormData,
-  validateFormData,
-  validationErrorToFormState,
-  unknownToFormState,
-} from './createArticle.lib';
+  ValidationError,
+  validationType,
+  validationLib,
+} from '@/entities/validation';
+import { authServerAction } from '@/entities/auth';
+import { parseFormData, validateFormData } from './createArticle.lib';
 
 const createArticleAction = async (
-  currentState: articleTypes.ArticleFormState,
+  currentState: validationType.FormState,
   formData: FormData,
-): Promise<articleTypes.ArticleFormState> => {
-  const { token } = currentState;
+): Promise<validationType.FormState> => {
+  const token = await authServerAction.getAuthCookie();
   const data = parseFormData(formData);
 
   try {
     const validatedData = validateFormData(data, token);
     await articleApi.postArticle(validatedData, token!);
   } catch (error) {
+    const { validationErrorToFormState, unknownToFormState } = validationLib;
+
     if (ValidationError.isValidationError(error)) {
       const formState = validationErrorToFormState(error, token);
       return formState;

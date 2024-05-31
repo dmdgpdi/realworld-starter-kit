@@ -2,18 +2,15 @@
 
 import { FormDataEntryValueToString } from '@/shared/lib';
 import { articleApi, articleTypes } from '@/entities/article';
-import { ValidationError } from '@/entities/validation';
+import { ValidationError, validationLib } from '@/entities/validation';
 import { validateFormData } from './updateArticle.lib';
-import {
-  unknownToFormState,
-  validationErrorToFormState,
-} from '../createArticle/createArticle.lib';
+import { authServerAction } from '@/entities/auth';
 
 const updateArticleAction = async (
   currentState: articleTypes.ArticleFormState,
   formData: FormData,
 ): Promise<articleTypes.ArticleFormState> => {
-  const { token } = currentState;
+  const token = await authServerAction.getAuthCookie();
   const data = {
     title: formData.get('title'),
     description: formData.get('description'),
@@ -32,6 +29,8 @@ const updateArticleAction = async (
 
     await articleApi.putArticle(validatedData, articleSlug, token!);
   } catch (error) {
+    const { validationErrorToFormState, unknownToFormState } = validationLib;
+
     if (ValidationError.isValidationError(error)) {
       const formState = validationErrorToFormState(error, token);
       return formState;

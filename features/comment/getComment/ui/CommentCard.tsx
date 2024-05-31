@@ -1,7 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { articleLib } from '@/entities/article';
-import { useAuth } from '@/entities/auth';
 import {
   CommentAuthorImage,
   CommentAuthorLink,
@@ -12,12 +12,35 @@ import {
   CommentText,
   commentType,
 } from '@/entities/comment';
+import { authApi, authServerAction } from '@/entities/auth';
 import { DeleteCommentIcon } from '@/features/comment/deleteComment';
 
 function CommentCard({ articleSlug, comment }: CommentCardProps) {
   const { id, author, body, updatedAt } = comment;
-  const { userInformation } = useAuth();
-  const isAuthorEqualUser = author.username === userInformation?.username;
+  const [userIsAuthor, setUserIsAuthor] = useState(false);
+
+  useEffect(() => {
+    const checkUserIsAuthor = async () => {
+      try {
+        const token = await authServerAction.getAuthCookie();
+
+        if (!token) {
+          return;
+        }
+
+        const { user: userInformation } = await authApi.getUserInfor(token!);
+
+        if (userInformation?.username === author.username) {
+          setUserIsAuthor(true);
+          return;
+        }
+      } catch (error) {
+        setUserIsAuthor(false);
+      }
+    };
+
+    checkUserIsAuthor();
+  }, [author.username]);
 
   return (
     <CommentCardLayout>
@@ -36,7 +59,7 @@ function CommentCard({ articleSlug, comment }: CommentCardProps) {
           {author.username}
         </CommentAuthorLink>
         <CommentDateSpan>{articleLib.formatDate(updatedAt)}</CommentDateSpan>
-        {isAuthorEqualUser && (
+        {userIsAuthor && (
           <DeleteCommentIcon articleSlug={articleSlug} commentId={id} />
         )}
       </CommentCardFooter>

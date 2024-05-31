@@ -1,16 +1,14 @@
-'use client';
+'use server';
 
-import { useAuthStore } from '@/entities/auth';
+import { authServerAction } from '@/entities/auth';
 import AuthenticatedUserHeader from './AuthenticatedUserHeader';
 import UnauthenticatedUserHeader from './UnauthenticatedUserHeader';
 
-function Header() {
-  const { isLoggedIn, userInfo } = useAuthStore(state => state);
+async function Header() {
+  const isLoggedIn = await authServerAction.getAuthCookie();
 
   if (isLoggedIn) {
-    const username = userInfo?.username ?? '';
-
-    return <AuthenticatedUserHeader userName={username} />;
+    return <AuthenticatedUserHeader userName={'username'} />;
   }
 
   return <UnauthenticatedUserHeader />;

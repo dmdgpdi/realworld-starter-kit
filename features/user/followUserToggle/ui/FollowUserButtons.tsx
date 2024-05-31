@@ -1,27 +1,27 @@
 import { useShallow } from 'zustand/react/shallow';
 import { ERROR_MESSAGE } from '@/shared/constant';
 import { CommonButton, CommonIcon } from '@/shared/ui';
-import { useAuth } from '@/entities/auth';
 import { toastContext } from '@/entities/toast';
 import { userApi } from '@/entities/user';
+import { authServerAction } from '@/entities/auth';
 
 function FollowUserButton({
   username,
   toggleFollowingState,
 }: FollowUserButtonProps) {
-  const { token } = useAuth();
   const createToast = toastContext.useToastStore(
     useShallow(state => state.createToast),
   );
 
   const followUser = async () => {
-    if (!token) {
-      createToast({ message: ERROR_MESSAGE.AUTH_REQUIRED });
-      return;
-    }
-
     try {
       toggleFollowingState();
+      const token = await authServerAction.getAuthCookie();
+
+      if (!token) {
+        throw new Error(ERROR_MESSAGE.AUTH_REQUIRED);
+      }
+
       await userApi.postUserFollow(username, token);
     } catch (error) {
       if (error instanceof Error) {

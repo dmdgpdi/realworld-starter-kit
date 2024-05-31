@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE } from '@/shared/constant';
-import { articleLib, articleSchema, articleTypes } from '@/entities/article';
+import { articleLib, articleSchema } from '@/entities/article';
 import { ValidationError } from '@/entities/validation';
 
 const parseFormData = (formData: FormData) => {
@@ -35,30 +35,4 @@ const validateFormData = (data: Object, token: string | undefined) => {
   return parsedData.data;
 };
 
-const validationErrorToFormState = (
-  error: ValidationError,
-  token?: string,
-): articleTypes.ArticleFormState => {
-  const { isSuccess, errorList } = error;
-
-  return {
-    isSuccess,
-    errorList,
-    token,
-  };
-};
-
-const unknownToFormState = (token?: string): articleTypes.ArticleFormState => {
-  return {
-    isSuccess: false,
-    errorList: [ERROR_MESSAGE.UNKNOWN_ERROR],
-    token,
-  };
-};
-
-export {
-  parseFormData,
-  validateFormData,
-  validationErrorToFormState,
-  unknownToFormState,
-};
+export { parseFormData, validateFormData };

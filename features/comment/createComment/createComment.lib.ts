@@ -7,7 +7,6 @@ import { ValidationError } from '@/entities/validation';
 const validationErrorToFormState = (
   error: ValidationError,
   articleSlug: string,
-  token?: string,
 ): commentType.CommentFormState => {
   const { isSuccess, errorList } = error;
 
@@ -15,32 +14,27 @@ const validationErrorToFormState = (
     articleSlug,
     errorList,
     isSuccess,
-    token,
   };
 };
 
 const errorToFormState = (
   error: Error,
   articleSlug: string,
-  token?: string,
 ): commentType.CommentFormState => {
   return {
     articleSlug,
     isSuccess: false,
     errorList: [error.message],
-    token,
   };
 };
 
 const unknownToFormState = (
   articleSlug: string,
-  token?: string,
 ): commentType.CommentFormState => {
   return {
     articleSlug,
     isSuccess: false,
     errorList: [ERROR_MESSAGE.UNKNOWN_ERROR],
-    token,
   };
 };
 

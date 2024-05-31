@@ -6,7 +6,7 @@ import { NavItem, NavLink, FeedToggleLayout, CategoryNav } from '@/shared/ui';
 import { decodeUrl } from '@/shared/lib';
 import { authLib } from '@/entities/auth';
 import { tagType } from '@/entities/tag';
-import { determineUrlSatus } from './articleCategory.lib';
+import { determineUrlStatus } from './articleCategory.lib';
 
 function ArticleCategory({
   articleCategoryItem = { article: true, feedArticle: true, tagArticle: true },
@@ -27,7 +27,7 @@ function ArticleCategory({
   const username = decodeUrl(initialUsername);
   const pathname = usePathname();
   const { urlIsFeed, urlIsGlobalFeed, urlIsUser, urlIsUserFavorited } =
-    determineUrlSatus(pathname, { tag: tag });
+    determineUrlStatus(pathname, { tag: tag });
   const [hasToken, setHasToken] = useState(false);
 
   useEffect(() => {

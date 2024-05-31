@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '@/entities/auth';
 import { FollowUserButton, FollowUserProfileButton } from './FollowUserButtons';
 import {
   UnfollowUserButton,
@@ -36,9 +35,7 @@ function FollowUserProfileToggleButton({
   username,
   initialFollowingValue,
 }: FollowUserProfileToggleButtonProps) {
-  const { token } = useAuth();
   const { followUser, isFollowing, unfollowUser } = useFollow(
-    token,
     username,
     initialFollowingValue,
   );

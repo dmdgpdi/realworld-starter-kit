@@ -16,14 +16,11 @@ import {
 import { tagType } from '@/entities/tag';
 import { articleLib } from '@/entities/article';
 import { TagListLayout, TagSpan } from '@/entities/tag';
-import { useAuthStore } from '@/entities/auth';
 import { createArticleAction } from './createArticle.serverAction';
 
 function CreateArticleForm({ tagList }: CreateArticleFormProps) {
   const router = useRouter();
-  const userInfo = useAuthStore(state => state.userInfo);
   const [state, formAction] = useFormState(createArticleAction, {
-    token: userInfo?.token,
     isSuccess: false,
     errorList: [],
   });

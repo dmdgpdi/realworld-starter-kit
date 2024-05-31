@@ -1,6 +1,5 @@
 import { createStore } from 'zustand/vanilla';
 import { User } from '../auth.type';
-import { deleteLocalStorageToken, setLocalStorageToken } from '../lib/auth.lib';
 import { getUserInfor } from '../auth.api';
 
 const defaultState: AuthState = {
@@ -11,21 +10,20 @@ const defaultState: AuthState = {
 const createAuthStore = (initState: AuthState = defaultState) => {
   return createStore<AuthState & AuthAction>()(set => ({
     ...initState,
-    login: userInfo =>
-      set(() => {
-        const { token } = userInfo;
-        setLocalStorageToken(token);
-        return { isLoggedIn: true, userInfo: userInfo };
-      }),
+    login: async (token: string | undefined) => {
+      if (!token) {
+        return;
+      }
+
+      const { user } = await getUserInfor(token);
+      return set(() => ({ isLoggedIn: true, userInfo: user }));
+    },
     update: userInfo =>
       set(() => {
-        const { token } = userInfo;
-        setLocalStorageToken(token);
         return { userInfo: userInfo };
       }),
     logout: () =>
       set(() => {
-        deleteLocalStorageToken();
         return { isLoggedIn: false, userInfo: undefined };
       }),
     load: async (token: string | undefined) => {
@@ -47,7 +45,7 @@ type AuthState = {
 };
 
 type AuthAction = {
-  login: (userInfo: User) => void;
+  login: (token: string | undefined) => Promise<void>;
   update: (userInfo: User) => void;
   logout: () => void;
   load: (token: string | undefined) => Promise<void>;

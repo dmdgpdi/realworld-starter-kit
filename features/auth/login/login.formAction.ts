@@ -16,10 +16,12 @@ const loginFormAction = async (
     email: formData.get('email'),
     password: formData.get('password'),
   };
+  let token;
 
   try {
     const validatedData = validateLoginFormData(data);
     const { user } = await authApi.postLoginUser(validatedData);
+    token = user.token;
     await authServerAction.setAuthCookie(user.token);
   } catch (error) {
     const { validationErrorToFormState, unknownToFormState } = validationLib;
@@ -36,6 +38,7 @@ const loginFormAction = async (
   return {
     isSuccess: true,
     errorList: [],
+    token: token,
   };
 };
 

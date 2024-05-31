@@ -12,7 +12,7 @@ import {
   articleLib,
   articleTypes,
 } from '@/entities/article';
-import { useAuth } from '@/entities/auth';
+import { useAuthStore } from '@/entities/auth';
 import { DeleteArticleButton, ToggleFavoriteButton } from '@/features/article';
 import { FollowUserToggleButton } from '@/features/user';
 
@@ -24,7 +24,7 @@ function ArticleMenu({
   articleSlug,
 }: ArticleMenuProps) {
   const router = useRouter();
-  const { userInformation } = useAuth();
+  const userInformation = useAuthStore(state => state.userInfo);
   const isAuthorEqualUser = author.username === userInformation?.username;
 
   return (

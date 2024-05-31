@@ -29,7 +29,7 @@ function AuthStoreProvider({ children }: AuthStoreProviderProps) {
   );
 }
 
-function useAuthStore<T>(selector: (store: AuthStore) => T): T {
+const useAuthStore = function <T>(selector: (store: AuthStore) => T): T {
   const authStoreContext = useContext(AuthStoreContext);
 
   if (!authStoreContext) {
@@ -37,20 +37,26 @@ function useAuthStore<T>(selector: (store: AuthStore) => T): T {
   }
 
   return useStore(authStoreContext, selector);
-}
+};
 
-function AuthLoader({ children }: { children: ReactNode }) {
+function AuthLoader({
+  token,
+  children,
+}: {
+  token?: string;
+  children: ReactNode;
+}) {
   const load = useAuthStore(state => state.load);
   const [isLoad, setIsLoad] = useState(false);
 
   useEffect(() => {
     const loadAuth = async () => {
-      await load();
+      await load(token);
       setIsLoad(true);
     };
 
     loadAuth();
-  }, [load]);
+  }, [load, token]);
 
   return isLoad ? children : undefined;
 }

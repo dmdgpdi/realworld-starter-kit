@@ -3,7 +3,11 @@ import { Inter } from 'next/font/google';
 import BootStrapProvider from '@/app/bootStrapProvider';
 import { Header } from '@/widgets/header';
 import { ToastContainer, toastContext } from '@/entities/toast';
-import { AuthStoreProvider, AuthLoader } from '@/entities/auth';
+import {
+  AuthStoreProvider,
+  AuthLoader,
+  authServerAction,
+} from '@/entities/auth';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,11 +16,13 @@ export const metadata: Metadata = {
   description: 'Conduit is a social blogging site (i.e. a Medium.com clone).',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const authToken = await authServerAction.getAuthCookie();
+
   return (
     <html lang="en">
       <head></head>
@@ -24,7 +30,7 @@ export default function RootLayout({
         <BootStrapProvider>
           <toastContext.ToastStoreProvider>
             <AuthStoreProvider>
-              <AuthLoader>
+              <AuthLoader token={authToken}>
                 <Header />
                 {children}
               </AuthLoader>

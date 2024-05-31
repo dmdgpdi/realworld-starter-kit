@@ -1,16 +1,24 @@
 'use client';
 
-import { getAuthCookie } from '../auth.serverAction';
-import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '..';
 
-async function NoAuthGuard({ children }: NoAuthGuardProps) {
-  const authToken = await getAuthCookie();
+function NoAuthGuard({ children }: NoAuthGuardProps) {
+  const router = useRouter();
+  const userInformation = useAuthStore(state => state.userInfo);
+  const [isNoLoggedIn, setIsNoLoggedIn] = useState(false);
 
-  if (authToken) {
-    redirect('/');
-  }
+  useEffect(() => {
+    if (userInformation) {
+      router.back();
+      return;
+    }
 
-  return children;
+    setIsNoLoggedIn(true);
+  }, [router, userInformation]);
+
+  return isNoLoggedIn ? children : undefined;
 }
 
 export { NoAuthGuard };

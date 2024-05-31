@@ -1,16 +1,21 @@
-'use server';
+'use client';
 
-import { getAuthCookie } from '../auth.serverAction';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useAuthStore } from '..';
 
-async function AuthGuard({ children }: AuthGuardProps) {
-  const authToken = await getAuthCookie();
+function AuthGuard({ children }: AuthGuardProps) {
+  const router = useRouter();
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn);
 
-  if (!authToken) {
-    redirect('/');
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.back();
+      return;
+    }
+  }, [router, isLoggedIn]);
 
-  return children;
+  return isLoggedIn ? children : undefined;
 }
 
 export { AuthGuard };

@@ -1,27 +1,23 @@
-'use server';
+'use client';
 
-import { redirect } from 'next/navigation';
-import { getAuthCookie } from '../auth.serverAction';
-import { authApi } from '..';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '..';
 
-async function AuthorGuard({ authorUserName, children }: AuthorGuardProps) {
-  const authToken = await getAuthCookie();
+function AuthorGuard({ authorUserName, children }: AuthorGuardProps) {
+  const router = useRouter();
+  const userInformation = useAuthStore(state => state.userInfo);
+  const [userIsAuthor, setUserIsAuthor] = useState(false);
 
-  if (!authToken) {
-    redirect('/');
-  }
-
-  try {
-    const { user } = await authApi.getUserInfor(authToken);
-
-    if (user.username !== authorUserName) {
-      throw new Error('aa');
+  useEffect(() => {
+    if (userInformation?.username !== authorUserName) {
+      router.back();
     }
-  } catch (error) {
-    redirect('/');
-  }
 
-  return children;
+    setUserIsAuthor(true);
+  }, [router, userInformation, authorUserName]);
+
+  return userIsAuthor ? children : undefined;
 }
 
 export { AuthorGuard };

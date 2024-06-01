@@ -3,8 +3,6 @@ import { FormState } from './validation.type';
 import { ValidationError } from './validation.model';
 
 const compareHashString = (originHash: string, inputHash: string) => {
-  console.log(originHash === inputHash);
-
   return originHash === inputHash;
 };
 

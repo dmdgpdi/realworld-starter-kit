@@ -1,4 +1,5 @@
 import { API, BASE_URL, checkError } from '@/shared/api';
+import { ProfileResponse } from './user.type';
 
 const postUserFollow = async (username: string, token: string) => {
   const url = `${BASE_URL}/${API.PROFILES}/${username}/${API.FOLLOW}`;
@@ -28,4 +29,16 @@ const deleteUserFollow = async (username: string, token: string) => {
   checkError(res);
 };
 
-export { postUserFollow, deleteUserFollow };
+const getUserProfile = async (username: string): Promise<ProfileResponse> => {
+  const url = `${BASE_URL}/${API.PROFILES}/${username}`;
+
+  const res = await fetch(url, {
+    cache: 'no-store',
+  });
+
+  checkError(res);
+
+  return res.json();
+};
+
+export { postUserFollow, deleteUserFollow, getUserProfile };

@@ -3,17 +3,12 @@ import {
   CreateUserSchema,
   LoginResponseSchema,
   LoginUserSchema,
+  UpdateUserRequestSchema,
 } from './auth.schema';
 
 type CreateUser = z.infer<typeof CreateUserSchema>;
 
 type LoginUser = z.infer<typeof LoginUserSchema>;
-
-type LoginUserErrorMessage = {
-  errors: {
-    string: string[];
-  };
-};
 
 type LoginUserResponse = z.infer<typeof LoginResponseSchema>;
 
@@ -35,13 +30,15 @@ type UserInforResponse = {
   user: User;
 };
 
+type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>;
+
 export type {
   CreateUser,
   LoginUser,
-  LoginUserErrorMessage,
   LoginUserResponse,
   AuthError,
   AuthErrorResponse,
   UserInforResponse,
   User,
+  UpdateUserRequest,
 };

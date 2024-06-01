@@ -16,4 +16,10 @@ type CommentResponse = {
   comment: Comment;
 };
 
-export type { CommentListResponse, Comment, CommentResponse };
+type CommentFormState = {
+  articleSlug: string;
+  isSuccess: boolean;
+  errorList: string[];
+};
+
+export type { CommentListResponse, Comment, CommentResponse, CommentFormState };

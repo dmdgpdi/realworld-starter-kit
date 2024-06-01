@@ -1,12 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { CommonButton, CommonIcon } from '@/shared/ui';
 import {
-  ArticleButton,
-  ArticleIcon,
   ArticleMetaLayout,
   AuthorLink,
   DateDescription,
@@ -14,29 +12,9 @@ import {
   articleLib,
   articleTypes,
 } from '@/entities/article';
-import { useAuth } from '@/entities/auth';
+import { useAuthStore } from '@/entities/auth';
 import { DeleteArticleButton, ToggleFavoriteButton } from '@/features/article';
-import { FollowUserButton, UnfollowUserButton } from '@/features/user';
-
-function FollowUserToggleButton({ username, isFollowing }: FollowButtonProps) {
-  const [isFollowingAuthor, setIsFollowingAuthor] = useState(isFollowing);
-
-  const toggleFollwingAuthor = () => {
-    setIsFollowingAuthor(prev => !prev);
-  };
-
-  return isFollowingAuthor ? (
-    <UnfollowUserButton
-      username={username}
-      toggleFollowingState={toggleFollwingAuthor}
-    />
-  ) : (
-    <FollowUserButton
-      username={username}
-      toggleFollowingState={toggleFollwingAuthor}
-    />
-  );
-}
+import { FollowUserToggleButton } from '@/features/user';
 
 function ArticleMenu({
   author,
@@ -46,7 +24,7 @@ function ArticleMenu({
   articleSlug,
 }: ArticleMenuProps) {
   const router = useRouter();
-  const { userInformation } = useAuth();
+  const userInformation = useAuthStore(state => state.userInfo);
   const isAuthorEqualUser = author.username === userInformation?.username;
 
   return (
@@ -78,14 +56,14 @@ function ArticleMenu({
       {isAuthorEqualUser && (
         <>
           {' '}
-          <ArticleButton
+          <CommonButton
             outLineBorderColor="secondary"
             onClick={() => {
               router.push(`/editor/${articleSlug}`);
             }}
           >
-            <ArticleIcon icon="ion-edit"></ArticleIcon> Edit Article
-          </ArticleButton>
+            <CommonIcon icon="ion-edit"></CommonIcon> Edit Article
+          </CommonButton>
           <DeleteArticleButton articleSlug={articleSlug} />
         </>
       )}
@@ -101,9 +79,4 @@ type ArticleMenuProps = {
   favoritesCount: number;
   favorited: boolean;
   articleSlug: string;
-};
-
-type FollowButtonProps = {
-  username: string;
-  isFollowing: boolean;
 };

@@ -1,18 +1,15 @@
 import { redirect } from 'next/navigation';
 import { RowLayout, ContainerPageLayout } from '@/shared/ui';
 import { articleApi } from '@/entities/article';
-import {
-  AuthorGuard,
-  EditorPageLayout,
-  authServerAction,
-} from '@/entities/auth';
+import { AuthorGuard, EditorPageLayout } from '@/entities/auth';
+import { validationServerAction } from '@/entities/validation';
 import { UpdateArticleForm } from '@/features/article';
 
 export default async function UpdateArticlePage({
   params,
 }: UpdateArticlePageProps) {
   const { articleSlug } = params;
-  const { createHashString } = authServerAction;
+  const { createHashString } = validationServerAction;
   let article;
 
   try {

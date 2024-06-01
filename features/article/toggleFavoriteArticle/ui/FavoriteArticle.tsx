@@ -2,14 +2,10 @@
 
 import { useShallow } from 'zustand/react/shallow';
 import { ERROR_MESSAGE } from '@/shared/constant';
-import {
-  ArticleButton,
-  ArticleIcon,
-  Counter,
-  articleApi,
-} from '@/entities/article';
-import { useAuth } from '@/entities/auth';
+import { CommonButton, CommonIcon } from '@/shared/ui';
+import { Counter, articleApi } from '@/entities/article';
 import { toastContext } from '@/entities/toast';
+import { authServerAction } from '@/entities/auth';
 
 function FavoriteArticleButton({
   articleSlug,
@@ -18,20 +14,19 @@ function FavoriteArticleButton({
   decreaseFavoritesCount,
   isSmall,
 }: FavoriteArticleProps) {
-  const { token } = useAuth();
-
   const createToast = toastContext.useToastStore(
     useShallow(state => state.createToast),
   );
 
   const postFavoriteArticle = async () => {
-    if (!token) {
-      createToast({ message: ERROR_MESSAGE.AUTH_REQUIRED });
-      return;
-    }
-
     try {
       increaseFavoritesCount();
+      const token = await authServerAction.getAuthCookie();
+
+      if (!token) {
+        throw new Error(ERROR_MESSAGE.AUTH_REQUIRED);
+      }
+
       await articleApi.postFavoriteArticle(articleSlug, token);
     } catch (error) {
       if (error instanceof Error) {
@@ -43,21 +38,22 @@ function FavoriteArticleButton({
 
   if (isSmall) {
     return (
-      <ArticleButton
+      <CommonButton
         outLineBorderColor="primary"
         size="pull-xs-right"
         onClick={postFavoriteArticle}
       >
         <i className="ion-heart"></i>
-      </ArticleButton>
+        {` ${favoritesCount}`}
+      </CommonButton>
     );
   }
 
   return (
-    <ArticleButton outLineBorderColor="primary" onClick={postFavoriteArticle}>
-      <ArticleIcon icon="ion-heart"></ArticleIcon>
+    <CommonButton outLineBorderColor="primary" onClick={postFavoriteArticle}>
+      <CommonIcon icon="ion-heart"></CommonIcon>
       &nbsp; Favorite Post <Counter>({favoritesCount})</Counter>
-    </ArticleButton>
+    </CommonButton>
   );
 }
 

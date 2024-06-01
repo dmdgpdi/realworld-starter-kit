@@ -1,24 +1,30 @@
 'use client';
 
-import { useAuth } from '@/entities/auth';
+import { useShallow } from 'zustand/react/shallow';
+import { ERROR_MESSAGE } from '@/shared/constant';
 import { CommentDeleteSpan, commentApi } from '@/entities/comment';
 import { toastContext } from '@/entities/toast';
-import { ERROR_MESSAGE } from '@/shared/constant';
-import { useShallow } from 'zustand/react/shallow';
+import { authServerAction } from '@/entities/auth';
 
 function DeleteCommentIcon({ articleSlug, commentId }: DeleteCommentIconProps) {
-  const { token } = useAuth();
   const createToast = toastContext.useToastStore(
     useShallow(state => state.createToast),
   );
 
   const deleteComment = async () => {
-    if (!token) {
-      createToast({ message: ERROR_MESSAGE.AUTH_REQUIRED });
-      return;
-    }
+    try {
+      const token = await authServerAction.getAuthCookie();
 
-    await commentApi.deleteComment(articleSlug, commentId, token);
+      if (!token) {
+        throw new Error(ERROR_MESSAGE.AUTH_REQUIRED);
+      }
+
+      await commentApi.deleteComment(articleSlug, commentId, token);
+    } catch (error) {
+      if (error instanceof Error) {
+        createToast({ message: error.message });
+      }
+    }
   };
 
   return <CommentDeleteSpan onClick={deleteComment} />;

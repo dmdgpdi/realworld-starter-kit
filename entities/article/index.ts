@@ -13,13 +13,9 @@ export {
   InforLayout,
   AuthorLink,
   DateDescription,
-  ArticleButton,
-  ArticleIcon,
   Counter,
   ArticleContentLayout,
   ArticleH2,
-  TextArea,
-  CreateArticleLayout,
   ArticlePreviewLayout,
 } from './ui/article.ui';
 export { ArticleBanner } from './ui/articleBanner';

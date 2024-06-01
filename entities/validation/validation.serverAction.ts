@@ -1,20 +1,6 @@
 'use server';
 
-import { cookies } from 'next/headers';
-
-const hasAuthCookie = async () => {
-  const cookieStore = cookies();
-  const authToken = cookieStore.get('auth');
-
-  return !!authToken;
-};
-
-const getAuthCookie = async () => {
-  const cookieStore = cookies();
-  const authToken = cookieStore.get('auth');
-
-  return authToken?.value;
-};
+import { compareHashString } from './validation.lib';
 
 const createHashString = async (message: string) => {
   const key = process.env.ENCRYPTION_KEY;
@@ -28,4 +14,10 @@ const createHashString = async (message: string) => {
   return hashHex;
 };
 
-export { hasAuthCookie, getAuthCookie, createHashString };
+const validateSlugAndHashString = async (slug: string, hashString: string) => {
+  const slugHashString = await createHashString(slug);
+  const isEqualHash = compareHashString(slugHashString, hashString);
+  return isEqualHash;
+};
+
+export { createHashString, validateSlugAndHashString };

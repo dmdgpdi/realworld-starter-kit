@@ -1,25 +1,19 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { getClientAuthCookie } from '../lib/auth.lib';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useAuthStore } from '..';
 
 function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter();
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useAuthStore(state => state.isLoggedIn);
 
   useEffect(() => {
-    const hasToken = getClientAuthCookie();
-
-    if (!hasToken) {
+    if (!isLoggedIn) {
       router.back();
+      return;
     }
-
-    if (hasToken) {
-      setIsLoggedIn(true);
-    }
-  }, [router]);
+  }, [router, isLoggedIn]);
 
   return isLoggedIn ? children : undefined;
 }

@@ -52,6 +52,12 @@ type Query = {
 
 type FeedParameter = Pick<Query, 'offset' | 'limit'>;
 
+type ArticleFormState = {
+  token?: string;
+  isSuccess: boolean;
+  errorList: string[];
+};
+
 export type {
   AuthorType,
   ArticleType,
@@ -62,4 +68,5 @@ export type {
   ArticleRequest,
   UpdateArticleRequest,
   ArticleListResponse,
+  ArticleFormState,
 };

@@ -70,6 +70,61 @@ function RowLayout({ children, ...otherProps }: LayoutProps) {
   );
 }
 
+function ResponsiveWidthContainer({ children, ...otherProps }: LayoutProps) {
+  return (
+    <div className="col-md-10 offset-md-1 col-xs-12" {...otherProps}>
+      {children}
+    </div>
+  );
+}
+
+function CommonButton({
+  children,
+  outLineBorderColor,
+  size,
+  actionBtn,
+  ...otherProps
+}: CommonButtonProps) {
+  return (
+    <button
+      className={`btn btn-sm btn-outline-${outLineBorderColor} ${size} ${actionBtn}`}
+      {...otherProps}
+    >
+      {children}
+    </button>
+  );
+}
+
+function CommonIcon({ children, icon, ...otherProps }: CommonIconProps) {
+  return (
+    <i className={icon} {...otherProps}>
+      {children}
+    </i>
+  );
+}
+
+function FeedToggleLayout({ children, ...otherProps }: LayoutProps) {
+  return (
+    <div className="feed-toggle" {...otherProps}>
+      {children}
+    </div>
+  );
+}
+
+function FormContentLayout(props: LayoutProps) {
+  const { children, ...otherProps } = props;
+
+  return (
+    <div className="col-md-6 offset-md-3 col-xs-12" {...otherProps}>
+      {children}
+    </div>
+  );
+}
+
+function TextArea({ ...props }: TextareaProps) {
+  return <textarea className="form-control" rows={8} {...props}></textarea>;
+}
+
 export {
   ContentPageLayout,
   ContainerLayout,
@@ -81,6 +136,12 @@ export {
   SubmitButton,
   LogoFont,
   RowLayout,
+  ResponsiveWidthContainer,
+  CommonButton,
+  CommonIcon,
+  FeedToggleLayout,
+  FormContentLayout,
+  TextArea,
 };
 
 export {
@@ -90,6 +151,7 @@ export {
   NavItem,
   NavItemList,
   NavLink,
+  CategoryNav,
 } from './Nav';
 
 export type { NavLinkProps } from './Nav';
@@ -105,5 +167,22 @@ export type HeadingProps = React.HTMLAttributes<HTMLHeadingElement>;
 export type UlProps = React.HTMLAttributes<HTMLUListElement>;
 export type FieldSetProps = React.FieldsetHTMLAttributes<HTMLFieldSetElement>;
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
-export type NavItemProps = React.LiHTMLAttributes<HTMLLIElement>;
+export type ListItemProps = React.LiHTMLAttributes<HTMLLIElement>;
 export type NavProps = React.HTMLAttributes<HTMLElement>;
+export type ImageProps = React.ImgHTMLAttributes<HTMLImageElement>;
+
+type CommonButtonProps = ButtonProps & {
+  outLineBorderColor: 'secondary' | 'primary' | 'danger';
+  size?: 'pull-xs-right';
+  actionBtn?: 'action-btn';
+};
+
+type CommonIconProps = LayoutProps & {
+  icon:
+    | 'ion-plus-round'
+    | 'ion-heart'
+    | 'ion-edit'
+    | 'ion-trash-a'
+    | 'ion-close-round'
+    | 'ion-gear-a';
+};

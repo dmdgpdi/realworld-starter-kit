@@ -28,15 +28,18 @@ export default async function ArticleFeedPage({
     redirect('/');
   }
 
-  const { articles: articleList, articlesCount } = await articleApi.getFeedList(
-    {
-      offset: currentPage,
-      limit: ArticleConstant.ARTICLES_PER_PAGE,
-    },
-    token,
-  );
-
-  const { tags: tagList } = await tagApi.getTagList();
+  const [articleResponse, tagResponse] = await Promise.all([
+    articleApi.getFeedList(
+      {
+        offset: currentPage,
+        limit: ArticleConstant.ARTICLES_PER_PAGE,
+      },
+      token,
+    ),
+    tagApi.getTagList(),
+  ]);
+  const { articles: articleList, articlesCount } = articleResponse;
+  const { tags: tagList } = tagResponse;
 
   return (
     <ArticlePageLayout>

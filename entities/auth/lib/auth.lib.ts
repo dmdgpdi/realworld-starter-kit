@@ -1,5 +1,7 @@
 import Cookies from 'js-cookie';
-import { AuthError, LoginUserErrorMessage } from '../auth.type';
+import { AuthError } from '../auth.type';
+import { getLocalItemWithExpiry, setLocalItemWithExpiry } from '@/shared/lib';
+import { deleteLocalItem } from '@/shared/lib/localStorage';
 
 const parseAuthError = (error: {
   [key: string]: string[];
@@ -25,10 +27,6 @@ const parseAuthError = (error: {
   return parsedError;
 };
 
-const isError = (data: Object): data is LoginUserErrorMessage => {
-  return 'errors' in data;
-};
-
 const setClientAuthCookie = (data: string) => {
   Cookies.set('auth', data, { expires: 1, sameSite: 'strict' });
 };
@@ -37,23 +35,35 @@ const getClientAuthCookie = () => {
   return Cookies.get('auth');
 };
 
-const compareHashString = (originHash: string, inputHash: string) => {
-  console.log(`origin: ${originHash}`);
-  console.log(`input: ${inputHash}`);
-  console.log(originHash === inputHash);
+const getLocalStorageToken = () => {
+  const localToken = getLocalItemWithExpiry<{ token: string }>('token');
 
-  return originHash === inputHash;
+  if (!localToken) {
+    return undefined;
+  }
+
+  return localToken.token;
 };
 
-const FormDataEntryValueToString = (formData: FormDataEntryValue) => {
-  return formData instanceof File ? '' : formData;
+const setLocalStorageToken = (token: string) => {
+  setLocalItemWithExpiry(
+    'token',
+    {
+      token: token,
+    },
+    { expiryInDay: 1 },
+  );
+};
+
+const deleteLocalStorageToken = () => {
+  deleteLocalItem('token');
 };
 
 export {
   parseAuthError,
-  isError,
   setClientAuthCookie,
   getClientAuthCookie,
-  compareHashString,
-  FormDataEntryValueToString,
+  getLocalStorageToken,
+  setLocalStorageToken,
+  deleteLocalStorageToken,
 };

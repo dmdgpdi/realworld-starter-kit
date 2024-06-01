@@ -2,25 +2,26 @@
 
 import { useRouter } from 'next/navigation';
 import { useShallow } from 'zustand/react/shallow';
+import { CommonButton, CommonIcon } from '@/shared/ui';
 import { ERROR_MESSAGE } from '@/shared/constant';
-import { useAuth } from '@/entities/auth';
 import { toastContext } from '@/entities/toast';
-import { ArticleButton, ArticleIcon, articleApi } from '@/entities/article';
+import { articleApi } from '@/entities/article';
+import { authServerAction } from '@/entities/auth';
 
 function DeleteArticleButton({ articleSlug }: DeleteArticleButtonProps) {
   const router = useRouter();
-  const { token } = useAuth();
   const createToast = toastContext.useToastStore(
     useShallow(state => state.createToast),
   );
 
   const deleteArticle = async () => {
-    if (!token) {
-      createToast({ message: ERROR_MESSAGE.AUTH_REQUIRED });
-      return;
-    }
-
     try {
+      const token = await authServerAction.getAuthCookie();
+
+      if (!token) {
+        throw new Error(ERROR_MESSAGE.AUTH_REQUIRED);
+      }
+
       await articleApi.deleteArticle(articleSlug, token);
       router.back();
     } catch (error) {
@@ -31,9 +32,9 @@ function DeleteArticleButton({ articleSlug }: DeleteArticleButtonProps) {
   };
 
   return (
-    <ArticleButton outLineBorderColor="danger" onClick={deleteArticle}>
-      <ArticleIcon icon="ion-trash-a"></ArticleIcon> Delete Article
-    </ArticleButton>
+    <CommonButton outLineBorderColor="danger" onClick={deleteArticle}>
+      <CommonIcon icon="ion-trash-a"></CommonIcon> Delete Article
+    </CommonButton>
   );
 }
 

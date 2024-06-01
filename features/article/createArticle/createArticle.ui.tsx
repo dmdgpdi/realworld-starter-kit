@@ -9,14 +9,12 @@ import {
   LargeInput,
   Input,
   SubmitButton,
+  ResponsiveWidthContainer,
+  CommonIcon,
+  TextArea,
 } from '@/shared/ui';
 import { tagType } from '@/entities/tag';
-import {
-  TextArea,
-  CreateArticleLayout,
-  ArticleIcon,
-  articleLib,
-} from '@/entities/article';
+import { articleLib } from '@/entities/article';
 import { TagListLayout, TagSpan } from '@/entities/tag';
 import { createArticleAction } from './createArticle.serverAction';
 
@@ -26,19 +24,16 @@ function CreateArticleForm({ tagList }: CreateArticleFormProps) {
     isSuccess: false,
     errorList: [],
   });
-  const [errorList, setErrorList] = useState<string[]>([]);
   const [tagInputValue, setTagInputValue] = useState('');
+  const { isSuccess, errorList } = state;
   const { addText, deleteText } = articleLib;
 
   useEffect(() => {
-    if (state?.isSuccess === true) {
-      setErrorList([]);
+    if (isSuccess === true) {
       router.replace('/');
       return;
     }
-
-    setErrorList(state.errorList);
-  }, [state, router]);
+  }, [isSuccess, router]);
 
   const addTag = (tag: tagType.Tag) => {
     setTagInputValue(prev => addText(prev, tag));
@@ -59,7 +54,7 @@ function CreateArticleForm({ tagList }: CreateArticleFormProps) {
   };
 
   return (
-    <CreateArticleLayout>
+    <ResponsiveWidthContainer>
       <ErrorMessageUl>
         {errorList.map(error => (
           <li role="alert" key={error}>
@@ -103,7 +98,7 @@ function CreateArticleForm({ tagList }: CreateArticleFormProps) {
                   }}
                 >
                   {' '}
-                  <ArticleIcon icon="ion-close-round"></ArticleIcon> {tag}{' '}
+                  <CommonIcon icon="ion-close-round"></CommonIcon> {tag}{' '}
                 </TagSpan>
               ))}
             </TagListLayout>
@@ -111,7 +106,7 @@ function CreateArticleForm({ tagList }: CreateArticleFormProps) {
           <SubmitButton>Publish Article</SubmitButton>
         </fieldset>
       </form>
-    </CreateArticleLayout>
+    </ResponsiveWidthContainer>
   );
 }
 

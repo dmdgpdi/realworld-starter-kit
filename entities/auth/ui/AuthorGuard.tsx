@@ -2,34 +2,20 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getClientAuthCookie } from '../lib/auth.lib';
-import { authApi } from '..';
+import { useAuthStore } from '..';
 
 function AuthorGuard({ authorUserName, children }: AuthorGuardProps) {
   const router = useRouter();
+  const userInformation = useAuthStore(state => state.userInfo);
   const [userIsAuthor, setUserIsAuthor] = useState(false);
 
   useEffect(() => {
-    const token = getClientAuthCookie();
-
-    if (!token) {
+    if (userInformation?.username !== authorUserName) {
       router.back();
-      return;
     }
 
-    const getUserInfoAndCompareAuthor = async () => {
-      const { user } = await authApi.getUserInfor(token);
-
-      if (user.username !== authorUserName) {
-        router.back();
-        return;
-      }
-
-      setUserIsAuthor(true);
-    };
-
-    getUserInfoAndCompareAuthor();
-  }, [router, authorUserName]);
+    setUserIsAuthor(true);
+  }, [router, userInformation, authorUserName]);
 
   return userIsAuthor ? children : undefined;
 }

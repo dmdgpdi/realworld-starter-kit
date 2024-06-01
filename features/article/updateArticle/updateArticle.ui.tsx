@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
@@ -9,15 +9,12 @@ import {
   LargeInput,
   Input,
   SubmitButton,
-} from '@/shared/ui';
-import {
+  ResponsiveWidthContainer,
   TextArea,
-  CreateArticleLayout,
-  articleTypes,
-} from '@/entities/article';
+} from '@/shared/ui';
+import { articleTypes } from '@/entities/article';
 import { updateArticleAction } from './updateArticle.serverAction';
 
-// TODO: hidden input 암호화하기.
 function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
   const router = useRouter();
   const { title, description, body, slug } = article;
@@ -25,20 +22,17 @@ function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
     isSuccess: false,
     errorList: [],
   });
-  const [errorList, setErrorList] = useState<string[]>([]);
+  const { isSuccess, errorList } = state;
 
   useEffect(() => {
-    if (state?.isSuccess === true) {
-      setErrorList([]);
+    if (isSuccess === true) {
       router.replace('/');
       return;
     }
-
-    setErrorList(state.errorList);
-  }, [state, router]);
+  }, [isSuccess, router]);
 
   return (
-    <CreateArticleLayout>
+    <ResponsiveWidthContainer>
       <ErrorMessageUl>
         {errorList.map(error => (
           <li role="alert" key={error}>
@@ -78,7 +72,7 @@ function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
           <SubmitButton>Publish Article</SubmitButton>
         </fieldset>
       </form>
-    </CreateArticleLayout>
+    </ResponsiveWidthContainer>
   );
 }
 

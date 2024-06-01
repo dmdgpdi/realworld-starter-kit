@@ -1,13 +1,14 @@
 import { BASE_URL, API } from '@/shared/api';
 import { appendUrl } from '@/shared/lib';
+import { checkError } from '@/shared/api';
 import {
   LoginUser,
   LoginUserResponse,
-  LoginUserErrorMessage,
   CreateUser,
   AuthError,
   AuthErrorResponse,
   UserInforResponse,
+  UpdateUserRequest,
 } from './auth.type';
 
 const postRegisterUser = async (
@@ -35,7 +36,7 @@ const postRegisterUser = async (
 
 const postLoginUser = async (
   userData: LoginUser,
-): Promise<LoginUserResponse | LoginUserErrorMessage> => {
+): Promise<LoginUserResponse> => {
   const url = appendUrl(BASE_URL, API.USERS, API.LOGIN);
 
   const res = await fetch(url, {
@@ -48,14 +49,8 @@ const postLoginUser = async (
     }),
   });
 
-  if (!res.ok) {
-    const errorData: LoginUserErrorMessage = await res.json();
-    return errorData;
-  }
-
-  const value: LoginUserResponse = await res.json();
-
-  return value;
+  checkError(res);
+  return res.json();
 };
 
 const getUserInfor = async (token: string): Promise<UserInforResponse> => {
@@ -74,4 +69,24 @@ const getUserInfor = async (token: string): Promise<UserInforResponse> => {
   return res.json();
 };
 
-export { postRegisterUser, postLoginUser, getUserInfor };
+const updateUserInfo = async (
+  user: UpdateUserRequest,
+  token: string,
+): Promise<UserInforResponse> => {
+  const url = `${BASE_URL}/${API.USER}`;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      user,
+    }),
+  });
+
+  checkError(res);
+  return res.json();
+};
+
+export { postRegisterUser, postLoginUser, getUserInfor, updateUserInfo };

@@ -36,7 +36,7 @@ export default async function UserFavoritedArticlePage({
           <Pagination
             articlesCount={articlesCount}
             currentPage={currentPage}
-            href={`/profile/${username}`}
+            href={`/profile/${username}/favorited`}
           />
         </ResponsiveWidthContainer>
       </RowLayout>

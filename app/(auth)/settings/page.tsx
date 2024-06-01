@@ -1,6 +1,7 @@
-import { ContainerPageLayout, RowLayout, CommonButton } from '@/shared/ui';
+import { ContainerPageLayout, RowLayout } from '@/shared/ui';
 import { AuthContentLayout, AuthH1, SettingPageLayout } from '@/entities/auth';
 import { UpdateUserInfoForm } from '@/features/auth/updateUserInfo';
+import { LogoutButton } from '@/features/auth';
 
 export default function SettingPage() {
   return (
@@ -11,9 +12,7 @@ export default function SettingPage() {
             <AuthH1>Your Settings</AuthH1>
             <UpdateUserInfoForm />
             <hr />
-            <CommonButton outLineBorderColor="danger">
-              Or click here to logout.
-            </CommonButton>
+            <LogoutButton />
           </AuthContentLayout>
         </RowLayout>
       </ContainerPageLayout>

@@ -22,10 +22,11 @@ const createAuthStore = (initState: AuthState = defaultState) => {
       set(() => {
         return { userInfo: userInfo };
       }),
-    logout: () =>
-      set(() => {
+    logout: async () => {
+      return set(() => {
         return { isLoggedIn: false, userInfo: undefined };
-      }),
+      });
+    },
     load: async (token: string | undefined) => {
       if (!token) {
         return;
@@ -47,7 +48,7 @@ type AuthState = {
 type AuthAction = {
   login: (token: string | undefined) => Promise<void>;
   update: (userInfo: User) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   load: (token: string | undefined) => Promise<void>;
 };
 

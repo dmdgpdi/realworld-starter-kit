@@ -8,6 +8,7 @@ import {
   AuthError,
   AuthErrorResponse,
   UserInforResponse,
+  UpdateUserRequest,
 } from './auth.type';
 
 const postRegisterUser = async (
@@ -68,4 +69,24 @@ const getUserInfor = async (token: string): Promise<UserInforResponse> => {
   return res.json();
 };
 
-export { postRegisterUser, postLoginUser, getUserInfor };
+const updateUserInfo = async (
+  user: UpdateUserRequest,
+  token: string,
+): Promise<UserInforResponse> => {
+  const url = `${BASE_URL}/${API.USER}`;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      user,
+    }),
+  });
+
+  checkError(res);
+  return res.json();
+};
+
+export { postRegisterUser, postLoginUser, getUserInfor, updateUserInfo };

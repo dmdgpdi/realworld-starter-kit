@@ -30,4 +30,40 @@ const LoginResponseSchema = z.object({
   }),
 });
 
-export { CreateUserSchema, LoginUserSchema, LoginResponseSchema };
+const UpdateUserRequestSchema = z
+  .object({
+    email: z.string().email({ message: 'Please enter your email.' }),
+
+    password: z
+      .string()
+      .trim()
+      .min(4, { message: 'Please enter at least 4 digits of the password.' }),
+
+    username: z
+      .string()
+      .trim()
+      .min(4, { message: 'Please enter at least 4 digits of the username.' }),
+
+    bio: z
+      .string()
+      .trim()
+      .min(1, { message: 'Please enter at least 1 digits of the bio.' }),
+
+    image: z.string().url({ message: 'Please enter your image url' }),
+  })
+  .partial()
+  .refine(
+    data => {
+      const keyList = Object.keys(data) as (keyof typeof data)[];
+      const hasAtLeastOneField = keyList.some(key => data[key] !== undefined);
+      return hasAtLeastOneField;
+    },
+    { message: 'At least one field must be provided.' },
+  );
+
+export {
+  CreateUserSchema,
+  LoginUserSchema,
+  LoginResponseSchema,
+  UpdateUserRequestSchema,
+};

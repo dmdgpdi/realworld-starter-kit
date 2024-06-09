@@ -9,7 +9,7 @@ const nextConfig = {
         hostname: 'i.imgur.com',
       },
       {
-        hostname: process.env.NEXT_PUBLIC_BASE_API,
+        hostname: process.env.NEXT_PUBLIC_BASE_URL,
       },
       {
         hostname: 'static.productionready.io',

@@ -1,6 +1,6 @@
 describe('login', () => {
   beforeEach(() => {
-    cy.visit('http://127.0.0.1:3000/login');
+    cy.visit('/login');
     cy.intercept({ url: '/login', method: 'POST' }).as('login');
     cy.intercept({ url: '**/user', method: 'GET' }).as('getUserInfo');
   });
@@ -12,7 +12,7 @@ describe('login', () => {
 
     cy.wait('@login');
     //cy.wait('@getUserInfo');
-    cy.visit('http://127.0.0.1:3000/');
+    cy.visit('/');
     cy.getBySel('setting-button').should('be.visible');
   });
 

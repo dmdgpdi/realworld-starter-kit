@@ -18,7 +18,7 @@ export default function AuthenticatedUserHeader({
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/settings">
+          <NavLink href="/settings" data-cy="setting-button">
             <NavIcon iconName="ion-gear-a"></NavIcon>
             Settings
           </NavLink>

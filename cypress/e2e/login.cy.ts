@@ -1,4 +1,11 @@
 describe('login', () => {
+  const correctEmail = 'test3@gmail.com';
+  const correctPassword = '12345678';
+  const wrongEmail = 'worgemail@gmail.com';
+  const wrongPassword = '11111111';
+  const wrongFormatEmail = 'test3@gmailcom';
+  const wrongFormatPassword = '12';
+
   beforeEach(() => {
     cy.visit('/login');
     cy.intercept({ url: '/login', method: 'POST' }).as('login');
@@ -6,38 +13,46 @@ describe('login', () => {
   });
 
   it('correct login', () => {
-    cy.getBySel('email-input').type('test3@gmail.com');
-    cy.getBySel('password-input').type('12345678');
+    cy.getBySel('email-input').type(correctEmail);
+    cy.getBySel('password-input').type(correctPassword);
     cy.getBySel('submit').click();
 
     cy.wait('@login');
-    //cy.wait('@getUserInfo');
     cy.visit('/');
     cy.getBySel('setting-button').should('be.visible');
   });
 
   it('wrong email login', () => {
-    cy.getBySel('email-input').type('test3@gmail.comaaa');
-    cy.getBySel('password-input').type('12345678');
+    cy.getBySel('email-input').type(wrongEmail);
+    cy.getBySel('password-input').type(correctPassword);
     cy.getBySel('submit').click();
     cy.getBySel('error-messages').should('not.be.empty');
   });
 
   it('wrong password login', () => {
-    // 이메일 입력
-    cy.getBySel('email-input').type('test3@gmail.com');
-    // 비밀번호 입력
-    cy.getBySel('password-input').type('1234567841241241');
+    cy.getBySel('email-input').type(correctEmail);
+    cy.getBySel('password-input').type(wrongPassword);
     cy.getBySel('submit').click();
     cy.getBySel('error-messages').should('not.be.empty');
   });
 
   it('wrong email format login', () => {
-    // 이메일 입력
-    cy.getBySel('email-input').type('test3gmail.comaaa');
-    // 비밀번호 입력
-    cy.getBySel('password-input').type('12345678');
+    cy.getBySel('email-input').type(wrongFormatEmail);
+    cy.getBySel('password-input').type(correctPassword);
     cy.getBySel('submit').click();
-    cy.getBySel('error-messages').should('not.be.empty');
+    cy.getBySel('error-messages').should(
+      'have.text',
+      'Please enter your email.',
+    );
+  });
+
+  it('wrong password format login', () => {
+    cy.getBySel('email-input').type(correctEmail);
+    cy.getBySel('password-input').type(wrongFormatPassword);
+    cy.getBySel('submit').click();
+    cy.getBySel('error-messages').should(
+      'have.text',
+      'Please enter at least 4 digits of the password.',
+    );
   });
 });

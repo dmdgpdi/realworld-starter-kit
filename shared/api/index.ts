@@ -18,7 +18,7 @@ enum API {
 
 const checkError = (response: Response) => {
   if (!response.ok) {
-    throw new Error(`${response.status} 번 ${response.statusText}`);
+    throw new Error(`Something is wrong, Please Retry again.`);
   }
 };
 

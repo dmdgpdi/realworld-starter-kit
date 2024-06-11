@@ -27,6 +27,10 @@ const postRegisterUser = async (
   });
 
   if (!res.ok) {
+    if (500 <= res.status) {
+      checkError(res);
+    }
+
     const errorData: AuthErrorResponse = await res.json();
     return errorData?.errors;
   }

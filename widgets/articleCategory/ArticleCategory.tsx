@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import { NavItem, NavLink, FeedToggleLayout, CategoryNav } from '@/shared/ui';
 import { decodeUrl } from '@/shared/lib';
-import { authLib } from '@/entities/auth';
+import { useAuthStore } from '@/entities/auth';
 import { tagType } from '@/entities/tag';
 import { determineUrlStatus } from './articleCategory.lib';
 
@@ -26,25 +26,22 @@ function ArticleCategory({
   }>();
   const username = decodeUrl(initialUsername);
   const pathname = usePathname();
+  const userInfo = useAuthStore(state => state.userInfo);
   const { urlIsFeed, urlIsGlobalFeed, urlIsUser, urlIsUserFavorited } =
     determineUrlStatus(pathname, { tag: tag });
-  const [hasToken, setHasToken] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = authLib.getClientAuthCookie();
-
-    if (token) {
-      setHasToken(true);
+    if (userInfo) {
+      setIsLoggedIn(true);
       return;
     }
-
-    setHasToken(false);
-  }, []);
+  }, [userInfo]);
 
   return (
     <FeedToggleLayout>
       <CategoryNav>
-        {hasToken && (
+        {isLoggedIn && (
           <NavItem isShow={feedArticle}>
             <NavLink isActive={urlIsFeed} href="/feed">
               Your Feed

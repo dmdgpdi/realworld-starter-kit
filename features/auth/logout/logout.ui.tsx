@@ -17,7 +17,7 @@ function LogoutButton() {
     try {
       await authServerAction.deleteAuthCookie();
       deleteUserInfo();
-      router.back();
+      router.push('/');
     } catch (error) {
       if (error instanceof Error) {
         createToast({ message: error.message });
@@ -26,7 +26,11 @@ function LogoutButton() {
   };
 
   return (
-    <CommonButton outLineBorderColor="danger" onClick={logout}>
+    <CommonButton
+      outLineBorderColor="danger"
+      onClick={logout}
+      data-cy="logout-button"
+    >
       Or click here to logout.
     </CommonButton>
   );

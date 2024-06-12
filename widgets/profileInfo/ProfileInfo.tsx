@@ -15,14 +15,22 @@ function ProfileInfo({ profile }: ProfileInfoProps) {
       <ContainerLayout>
         <RowLayout>
           <ResponsiveWidthContainer>
-            <UserImage src={image} alt={`${username}'s profile image`} />
-            <h4>{username}</h4>
-            <p>{bio}</p>
+            <UserImage
+              src={image}
+              alt={`${username}'s profile image`}
+              data-cy="user-image"
+            />
+            <h4 data-cy="username">{username}</h4>
+            <p data-cy="user-bio">{bio}</p>
             <FollowUserProfileToggleButton
               username={username}
               initialFollowingValue={following}
+              data-cy="follow-button"
             />
-            <NavigateUpdateProfileButton authorUsername={username} />
+            <NavigateUpdateProfileButton
+              authorUsername={username}
+              data-cy="edit-profile-button"
+            />
           </ResponsiveWidthContainer>
         </RowLayout>
       </ContainerLayout>

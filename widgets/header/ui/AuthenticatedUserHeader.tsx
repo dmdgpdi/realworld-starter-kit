@@ -24,7 +24,9 @@ export default function AuthenticatedUserHeader({
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href={`/profile/${userName}`}>{userName}</NavLink>
+          <NavLink href={`/profile/${userName}`} data-cy="profile-button">
+            {userName}
+          </NavLink>
         </NavItem>
       </NavItemList>
     </Nav>

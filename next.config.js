@@ -14,6 +14,9 @@ const nextConfig = {
       {
         hostname: 'static.productionready.io',
       },
+      {
+        hostname: '**.**',
+      },
     ],
   },
 };

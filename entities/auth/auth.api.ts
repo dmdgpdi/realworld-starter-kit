@@ -10,6 +10,7 @@ import {
   UserInforResponse,
   UpdateUserRequest,
 } from './auth.type';
+import { revalidatePath } from 'next/cache';
 
 const postRegisterUser = async (
   userData: CreateUser,
@@ -88,6 +89,7 @@ const updateUserInfo = async (
       user,
     }),
   });
+  revalidatePath(url);
 
   checkError(res);
   return res.json();

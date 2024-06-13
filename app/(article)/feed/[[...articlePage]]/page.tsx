@@ -26,7 +26,7 @@ export default async function ArticleFeedPage({
   const token = await authServerAction.getAuthCookie();
 
   if (!token) {
-    redirect('/');
+    redirect('/login');
   }
 
   const [articleResponse, tagResponse] = await Promise.all([

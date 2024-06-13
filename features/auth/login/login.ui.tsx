@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
@@ -14,12 +14,18 @@ import { loginFormAction } from './login.formAction';
 
 export function LoginForm() {
   const router = useRouter();
-  const setLoginState = useAuthStore(state => state.login);
+  const { login: setLoginState, logout: initLoginState } = useAuthStore(
+    state => state,
+  );
   const [state, formAction] = useFormState(loginFormAction, {
     isSuccess: false,
     errorList: [],
   });
   const { isSuccess, errorList, token } = state;
+
+  useLayoutEffect(() => {
+    initLoginState();
+  }, [initLoginState]);
 
   useEffect(() => {
     const onSuccess = async () => {

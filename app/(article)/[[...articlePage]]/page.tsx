@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import { ContentPageLayout } from '@/shared/ui';
 import {
   articleApi,
@@ -29,6 +30,10 @@ export default async function Home({ params }: HomeProps) {
   ]);
   const { articles: articleList, articlesCount } = articleResponse;
   const { tags: tagList } = tagResponse;
+
+  if (articlesCount < ArticleConstant.ARTICLES_PER_PAGE * offset) {
+    redirect('/');
+  }
 
   return (
     <ArticleListPageLayout>

@@ -22,6 +22,7 @@ export default async function ArticleFeedPage({
   params,
 }: ArticleFeedPageProps) {
   const currentPage = articleLib.getCorrectPage(params.articlePage);
+  const offset = currentPage - 1;
   const token = await authServerAction.getAuthCookie();
 
   if (!token) {
@@ -31,7 +32,7 @@ export default async function ArticleFeedPage({
   const [articleResponse, tagResponse] = await Promise.all([
     articleApi.getFeedList(
       {
-        offset: currentPage,
+        offset: offset * ArticleConstant.ARTICLES_PER_PAGE,
         limit: ArticleConstant.ARTICLES_PER_PAGE,
       },
       token,
@@ -40,6 +41,10 @@ export default async function ArticleFeedPage({
   ]);
   const { articles: articleList, articlesCount } = articleResponse;
   const { tags: tagList } = tagResponse;
+
+  if (articlesCount < ArticleConstant.ARTICLES_PER_PAGE * offset) {
+    redirect('/');
+  }
 
   return (
     <ArticlePageLayout>

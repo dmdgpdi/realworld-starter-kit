@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import { NavItem, NavLink, FeedToggleLayout, CategoryNav } from '@/shared/ui';
 import { decodeUrl } from '@/shared/lib';
@@ -26,17 +25,10 @@ function ArticleCategory({
   }>();
   const username = decodeUrl(initialUsername);
   const pathname = usePathname();
-  const userInfo = useAuthStore(state => state.userInfo);
   const { urlIsFeed, urlIsGlobalFeed, urlIsUser, urlIsUserFavorited } =
     determineUrlStatus(pathname, { tag: tag });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (userInfo) {
-      setIsLoggedIn(true);
-      return;
-    }
-  }, [userInfo]);
+  const userInfo = useAuthStore(state => state.userInfo);
+  const isLoggedIn = userInfo ? true : false;
 
   return (
     <FeedToggleLayout>
@@ -50,7 +42,11 @@ function ArticleCategory({
         )}
 
         <NavItem isShow={article}>
-          <NavLink isActive={urlIsGlobalFeed} href="/">
+          <NavLink
+            isActive={urlIsGlobalFeed}
+            href="/"
+            data-cy="global-feed-nav"
+          >
             Global Feed
           </NavLink>
         </NavItem>

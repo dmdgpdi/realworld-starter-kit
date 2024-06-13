@@ -46,7 +46,6 @@ export function NavItem({
 
 export function NavLink({
   isActive = false,
-
   href = '',
   children,
   ...otherProps

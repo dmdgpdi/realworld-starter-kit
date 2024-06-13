@@ -49,7 +49,7 @@ export default async function ArticleFeedPage({
           <ArticleCategory />
           <ArticleList articleList={articleList} />
           <Pagination
-            href=""
+            href="/feed"
             currentPage={currentPage}
             articlesCount={articlesCount}
           />

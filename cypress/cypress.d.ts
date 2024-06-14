@@ -4,5 +4,7 @@ declare namespace Cypress {
     login(email: string, password: string): Chainable<void>;
     checkCurrentPage(page: number): void;
     checkGlobalCategoryActive(activeColor: string): void;
+    checkMyFeedCategoryActive(activeColor: string): void;
+    ignoreNextRedirect(): void;
   }
 }

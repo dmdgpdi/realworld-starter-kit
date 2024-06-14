@@ -43,7 +43,7 @@ export default async function ArticleFeedPage({
   const { tags: tagList } = tagResponse;
 
   if (articlesCount < ArticleConstant.ARTICLES_PER_PAGE * offset) {
-    redirect('/');
+    redirect('/feed');
   }
 
   return (

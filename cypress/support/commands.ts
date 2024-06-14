@@ -2,6 +2,18 @@ Cypress.Commands.add('getBySel', (selector, ...args) => {
   return cy.get(`[data-cy=${selector}]`, ...args);
 });
 
+Cypress.Commands.add('ignoreNextRedirectError', () => {
+  cy.on('uncaught:exception', err => {
+    if (err.message.includes('NEXT_REDIRECT')) {
+      // NEXT_REDIRECT가 동작하는지 확인
+      expect(err.message.includes('NEXT_REDIRECT')).equal(true);
+      return false;
+    }
+
+    return true;
+  });
+});
+
 Cypress.Commands.add('login', (email: string, password: string) => {
   cy.visit('/login');
   cy.intercept({ url: '/login', method: 'POST' }).as('login');
@@ -23,4 +35,8 @@ Cypress.Commands.add('checkCurrentPage', (page: number) => {
 
 Cypress.Commands.add('checkGlobalCategoryActive', activeColor => {
   cy.getBySel('global-feed-nav').should('have.css', 'color', activeColor);
+});
+
+Cypress.Commands.add('checkMyFeedCategoryActive', activeColor => {
+  cy.getBySel('my-feed-nav').should('have.css', 'color', activeColor);
 });

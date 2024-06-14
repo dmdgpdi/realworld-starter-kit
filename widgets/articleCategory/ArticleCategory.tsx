@@ -35,7 +35,7 @@ function ArticleCategory({
       <CategoryNav>
         {isLoggedIn && (
           <NavItem isShow={feedArticle}>
-            <NavLink isActive={urlIsFeed} href="/feed">
+            <NavLink isActive={urlIsFeed} href="/feed" data-cy="my-feed-nav">
               Your Feed
             </NavLink>
           </NavItem>

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { Tag } from '../tag.type';
 
-function ArticleCategoryTag({ tag }: ArticleCategoryTagProps) {
+function ArticleCategoryTag({ tag, ...otherProps }: ArticleCategoryTagProps) {
   return (
-    <Link href={`/${tag}/1`} className="tag-pill tag-default ">
+    <Link href={`/${tag}/1`} className="tag-pill tag-default" {...otherProps}>
       {tag}
     </Link>
   );

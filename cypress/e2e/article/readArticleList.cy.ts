@@ -11,7 +11,7 @@ describe('read global article list', () => {
   });
 
   it('click article category', () => {
-    cy.visit('/');
+    cy.visit('/eos/1');
 
     cy.getBySel('global-feed-nav').click();
 
@@ -166,6 +166,92 @@ describe('read feed article list', () => {
 
       cy.url().should('include', 'feed/1');
       cy.checkMyFeedCategoryActive(activeColor);
+      cy.checkCurrentPage(1);
+    });
+  });
+});
+
+describe('read tag article list', () => {
+  it('click sidebar tag', () => {
+    cy.visit('/');
+
+    cy.getBySel('tag-link-testTag').click();
+
+    cy.getBySel('article-list').should('be.visible');
+    cy.checkTagCategoryActive(activeColor);
+  });
+
+  describe('address access', () => {
+    it('access normal address', () => {
+      cy.visit('/testTag/1');
+
+      cy.getBySel('article-list').should('be.visible');
+      cy.checkTagCategoryActive(activeColor);
+    });
+
+    describe('access an abnormal address', () => {
+      it('missing pageNumber', () => {
+        cy.visit('/testTag');
+
+        // ! not TagCategoryActive
+        cy.checkGlobalCategoryActive(activeColor);
+      });
+
+      it('not exist tag', () => {
+        cy.visit('/not-exist-tag');
+
+        cy.checkGlobalCategoryActive(activeColor);
+      });
+
+      it('visit /testTag/-1', () => {
+        cy.visit('/testTag/-1');
+
+        cy.checkTagCategoryActive(activeColor);
+        cy.checkCurrentPage(1);
+      });
+
+      it('visit /testTag/string', () => {
+        const weirdString = 'somethingstring';
+        cy.ignoreNextRedirectError();
+
+        cy.visit(`/testTag/${weirdString}`);
+
+        cy.checkTagCategoryActive(activeColor);
+        cy.checkCurrentPage(1);
+      });
+
+      it('visit huge number', () => {
+        const hugeNumber = 99999999999;
+        cy.ignoreNextRedirectError();
+
+        cy.visit(`/testTag/${hugeNumber}`);
+
+        cy.url().should('not.include', `${hugeNumber}`);
+        cy.checkGlobalCategoryActive(activeColor);
+        cy.checkCurrentPage(1);
+      });
+    });
+  });
+
+  describe('change pagination', () => {
+    it('move next page', () => {
+      cy.visit('/testTag/1');
+      cy.getBySel('next-page').children().click();
+
+      cy.url().should('include', '/testTag/2');
+      cy.checkTagCategoryActive(activeColor);
+      cy.checkCurrentPage(2);
+    });
+
+    it.only('move previous page', () => {
+      cy.visit('/testTag/1');
+      cy.getBySel('previous-page').should('not.exist');
+      cy.getBySel('next-page').children().click();
+
+      cy.getBySel('previous-page').should('exist').children().click();
+
+      cy.url().should('include', '/testTag/1');
+      cy.checkTagCategoryActive(activeColor);
       cy.checkCurrentPage(1);
     });
   });

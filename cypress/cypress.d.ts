@@ -5,6 +5,7 @@ declare namespace Cypress {
     checkCurrentPage(page: number): void;
     checkGlobalCategoryActive(activeColor: string): void;
     checkMyFeedCategoryActive(activeColor: string): void;
-    ignoreNextRedirect(): void;
+    checkTagCategoryActive(activeColor: string): void;
+    ignoreNextRedirectError(): void;
   }
 }

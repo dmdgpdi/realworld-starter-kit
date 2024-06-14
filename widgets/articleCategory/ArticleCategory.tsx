@@ -53,7 +53,9 @@ function ArticleCategory({
 
         {tag && (
           <NavItem isShow={tagArticle}>
-            <NavLink isActive={true}># {tag}</NavLink>
+            <NavLink isActive={true} data-cy="tag-feed-nav">
+              # {tag}
+            </NavLink>
           </NavItem>
         )}
 

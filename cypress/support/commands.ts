@@ -40,3 +40,7 @@ Cypress.Commands.add('checkGlobalCategoryActive', activeColor => {
 Cypress.Commands.add('checkMyFeedCategoryActive', activeColor => {
   cy.getBySel('my-feed-nav').should('have.css', 'color', activeColor);
 });
+
+Cypress.Commands.add('checkTagCategoryActive', activeColor => {
+  cy.getBySel('tag-feed-nav').should('have.css', 'color', activeColor);
+});

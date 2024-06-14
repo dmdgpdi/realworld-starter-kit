@@ -1,0 +1,79 @@
+describe('read global article list', () => {
+  const activeColor = 'rgb(92, 184, 92)';
+
+  it('normal access', () => {
+    cy.visit('/');
+
+    cy.getBySel('article-list').should('be.visible');
+    cy.checkGlobalCategoryActive(activeColor);
+  });
+
+  it('click article category', () => {
+    cy.visit('/');
+
+    cy.getBySel('global-feed-nav').click();
+
+    cy.getBySel('article-list').should('be.visible');
+    cy.checkGlobalCategoryActive(activeColor);
+  });
+
+  describe('access an abnormal address', () => {
+    it('visit /-1', () => {
+      cy.visit('/-1');
+
+      cy.checkCurrentPage(1);
+      cy.checkGlobalCategoryActive(activeColor);
+    });
+
+    it('visit /string', () => {
+      const weirdString = '/somethingstring';
+
+      cy.visit(weirdString);
+
+      cy.checkCurrentPage(1);
+      cy.checkGlobalCategoryActive(activeColor);
+    });
+
+    it('visit huge number', () => {
+      const hugeNumber = 99999999999;
+      cy.visit(`/${hugeNumber}`);
+
+      cy.on('uncaught:exception', err => {
+        if (err.message.includes('NEXT_REDIRECT')) {
+          // NEXT_REDIRECT가 동작하는지 확인
+          expect(err.message.includes('NEXT_REDIRECT')).equal(true);
+          return false;
+        }
+
+        return true;
+      });
+      cy.url().should('not.include', `${hugeNumber}`);
+      cy.checkCurrentPage(1);
+      cy.checkGlobalCategoryActive(activeColor);
+    });
+  });
+
+  describe('change pagination', () => {
+    it('move next page', () => {
+      cy.visit('/');
+
+      cy.getBySel('next-page').children().click();
+
+      cy.url().should('include', '/2');
+      cy.checkGlobalCategoryActive(activeColor);
+      cy.checkCurrentPage(2);
+    });
+
+    it('move previous page', () => {
+      cy.visit('/');
+      cy.getBySel('previous-page').should('not.exist');
+      cy.getBySel('next-page').children().click();
+
+      cy.getBySel('previous-page').should('exist').children().click();
+
+      cy.url().should('include', '/1');
+      cy.checkGlobalCategoryActive(activeColor);
+      cy.checkCurrentPage(1);
+    });
+  });
+});

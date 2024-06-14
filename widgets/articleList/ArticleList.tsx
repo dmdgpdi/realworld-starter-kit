@@ -58,7 +58,7 @@ async function ArticleList({ articleList }: ArticleListProps) {
   }
 
   return (
-    <section>
+    <section data-cy="article-list">
       {articleList.map(article => (
         <ArticleItem article={article} key={article.slug} />
       ))}

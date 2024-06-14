@@ -11,3 +11,16 @@ Cypress.Commands.add('login', (email: string, password: string) => {
   cy.wait('@login');
   cy.visit('/');
 });
+
+Cypress.Commands.add('checkCurrentPage', (page: number) => {
+  cy.getBySel('current-page')
+    .invoke('text')
+    .then(text => {
+      const currentPageIndex = parseInt(text, 10);
+      expect(currentPageIndex).equal(page);
+    });
+});
+
+Cypress.Commands.add('checkGlobalCategoryActive', activeColor => {
+  cy.getBySel('global-feed-nav').should('have.css', 'color', activeColor);
+});

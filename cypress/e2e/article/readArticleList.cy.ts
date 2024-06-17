@@ -243,7 +243,7 @@ describe('read tag article list', () => {
       cy.checkCurrentPage(2);
     });
 
-    it.only('move previous page', () => {
+    it('move previous page', () => {
       cy.visit('/testTag/1');
       cy.getBySel('previous-page').should('not.exist');
       cy.getBySel('next-page').children().click();

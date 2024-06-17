@@ -256,3 +256,105 @@ describe('read tag article list', () => {
     });
   });
 });
+
+describe('read user article list', () => {
+  it('click my profile', () => {
+    cy.visit('/');
+    cy.login(email, password);
+    cy.getBySel('profile-button').click();
+    cy.url().should('include', '/profile');
+  });
+
+  it('click user profile', () => {
+    cy.visit('/');
+
+    cy.getBySel('user-profile-link').first().click();
+
+    cy.url().should('include', '/profile');
+  });
+
+  it('access not exist user profile', () => {
+    cy.visit('/profile/isnotuserprofile');
+    cy.ignoreNextRedirectError();
+    cy.url().should('not.include', '/profile');
+  });
+
+  describe('change pagination', () => {
+    it('move next page', () => {
+      cy.visit('/');
+      cy.getBySel('user-profile-link').first().click();
+      cy.url().should('include', '/profile');
+      cy.getBySel('next-page').children().click();
+
+      cy.url().should('match', /\/profile\/.*\/2$/);
+      cy.checkCurrentPage(2);
+    });
+
+    it('move previous page', () => {
+      cy.visit('/');
+      cy.getBySel('user-profile-link').first().click();
+      cy.url().should('include', '/profile');
+      cy.getBySel('previous-page').should('not.exist');
+      cy.getBySel('next-page').children().click();
+
+      cy.getBySel('previous-page').should('exist').children().click();
+
+      cy.url().should('match', /\/profile\/.*\/1$/);
+      cy.checkCurrentPage(1);
+    });
+  });
+});
+
+describe('read user favorite article list', () => {
+  it('click my favorite article', () => {
+    cy.visit('/');
+    cy.login(email, password);
+    cy.getBySel('profile-button').click();
+    cy.url().should('include', '/profile');
+
+    cy.getBySel('user-favorite-article-nav').click();
+
+    cy.url().should('include', '/favorited');
+  });
+
+  it('click user favorite article', () => {
+    cy.visit('/');
+    cy.getBySel('user-profile-link').first().click();
+    cy.url().should('include', '/profile');
+
+    cy.getBySel('user-favorite-article-nav').click();
+
+    cy.url().should('include', '/favorited');
+  });
+
+  describe('change pagination', () => {
+    it('move next page', () => {
+      cy.visit('/');
+      cy.login(email, password);
+      cy.getBySel('profile-button').click();
+      cy.url().should('include', '/profile');
+      cy.getBySel('user-favorite-article-nav').click();
+      cy.url().should('include', '/favorited');
+
+      cy.getBySel('next-page').children().click();
+
+      cy.url().should('match', /\/profile\/.*\/favorited\/2$/);
+      cy.checkCurrentPage(2);
+    });
+
+    it('move previous page', () => {
+      cy.visit('/');
+      cy.login(email, password);
+      cy.getBySel('profile-button').click();
+      cy.url().should('include', '/profile');
+      cy.getBySel('user-favorite-article-nav').click();
+      cy.url().should('include', '/favorited');
+      cy.getBySel('next-page').children().click();
+
+      cy.getBySel('previous-page').should('exist').children().click();
+
+      cy.url().should('match', /\/profile\/.*\/favorited\/1$/);
+      cy.checkCurrentPage(1);
+    });
+  });
+});

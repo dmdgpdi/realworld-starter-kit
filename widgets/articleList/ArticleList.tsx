@@ -19,7 +19,7 @@ function ArticleItem({ article }: { article: articleTypes.ArticleType }) {
   return (
     <ArticlePreviewLayout>
       <ArticleMetaLayout>
-        <Link href={`/profile/${author.username}`}>
+        <Link href={`/profile/${author.username}`} data-cy="user-profile-link">
           <Image
             src={author.image}
             alt={author.username}

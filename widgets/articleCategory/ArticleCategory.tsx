@@ -60,7 +60,11 @@ function ArticleCategory({
         )}
 
         <NavItem isShow={userArticle}>
-          <NavLink isActive={urlIsUser} href={`/profile/${username}`}>
+          <NavLink
+            isActive={urlIsUser}
+            href={`/profile/${username}`}
+            data-cy="user-article-nav"
+          >
             My Articles
           </NavLink>
         </NavItem>
@@ -69,6 +73,7 @@ function ArticleCategory({
           <NavLink
             isActive={urlIsUserFavorited}
             href={`/profile/${username}/favorited`}
+            data-cy="user-favorite-article-nav"
           >
             Favorited Articles
           </NavLink>

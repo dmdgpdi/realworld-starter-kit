@@ -38,7 +38,10 @@ function ArticleMenu({
         />
       </Link>
       <InforLayout>
-        <AuthorLink href={`/profile/${author.username}`}>
+        <AuthorLink
+          href={`/profile/${author.username}`}
+          data-cy="user-profile-link"
+        >
           {author.username}
         </AuthorLink>
         <DateDescription>{articleLib.formatDate(updatedAt)}</DateDescription>
@@ -61,6 +64,7 @@ function ArticleMenu({
             onClick={() => {
               router.push(`/editor/${articleSlug}`);
             }}
+            data-cy="article-update-button"
           >
             <CommonIcon icon="ion-edit"></CommonIcon> Edit Article
           </CommonButton>

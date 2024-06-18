@@ -24,13 +24,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   const { author } = article;
-  const { body, updatedAt, favorited, favoritesCount, tagList, slug } = article;
+  const { body, updatedAt, favorited, favoritesCount, tagList, slug, title } =
+    article;
 
   return (
     <ArticlePageLayout>
       <ArticleBannerLayout>
         <ContainerLayout>
-          <h1>How to build webapps that scale</h1>
+          <h1 data-cy="article-title">{title}</h1>
 
           <ArticleMenu
             author={author}

@@ -12,7 +12,7 @@ export default function AuthenticatedUserHeader({
           <NavLink href="/">Home</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/editor">
+          <NavLink href="/editor" data-cy="create-article-button">
             <NavIcon iconName="ion-compose"></NavIcon>
             New Article
           </NavLink>

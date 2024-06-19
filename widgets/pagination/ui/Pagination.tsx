@@ -25,8 +25,11 @@ export function Pagination({
   articlesCount,
 }: PaginationProps) {
   const hasNextPage =
-    ArticleConstant.ARTICLES_PER_PAGE * currentPage <= articlesCount;
-  const totalPage = articlesCount / ArticleConstant.ARTICLES_PER_PAGE + 1;
+    ArticleConstant.ARTICLES_PER_PAGE * currentPage < articlesCount;
+  const totalPage =
+    articlesCount < ArticleConstant.ARTICLES_PER_PAGE
+      ? 1
+      : articlesCount / ArticleConstant.ARTICLES_PER_PAGE;
 
   return (
     <ul className="pagination">

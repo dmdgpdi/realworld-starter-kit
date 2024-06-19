@@ -78,7 +78,7 @@ const postArticle = async (article: ArticleRequest, token: string) => {
     }),
   });
 
-  revalidatePath(`${BASE_URL}/${API.ARTICLES}`);
+  revalidatePath(`/(article)`, 'layout');
   checkError(res);
 
   return res.json();
@@ -102,7 +102,7 @@ const putArticle = async (
     }),
   });
 
-  revalidatePath(`${BASE_URL}/${API.ARTICLES}`);
+  revalidatePath(`/(article)`, 'layout');
   checkError(res);
 
   return res.json();
@@ -118,7 +118,8 @@ const deleteArticle = async (articleSlug: string, token: string) => {
       authorization: `Bearer ${token}`,
     },
   });
-  revalidatePath(`${BASE_URL}/${API.ARTICLES}`);
+
+  revalidatePath(`/(article)`, 'layout');
   checkError(res);
 };
 

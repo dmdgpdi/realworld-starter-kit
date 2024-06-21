@@ -31,7 +31,10 @@ export default async function Home({ params }: HomeProps) {
   const { articles: articleList, articlesCount } = articleResponse;
   const { tags: tagList } = tagResponse;
 
-  if (articlesCount <= ArticleConstant.ARTICLES_PER_PAGE * offset) {
+  if (
+    offset != 0 &&
+    articlesCount <= ArticleConstant.ARTICLES_PER_PAGE * offset
+  ) {
     redirect('/');
   }
 

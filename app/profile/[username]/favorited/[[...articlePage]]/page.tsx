@@ -22,7 +22,10 @@ export default async function UserFavoritedArticlePage({
       limit: ArticleConstant.ARTICLES_PER_PAGE,
     });
 
-  if (articlesCount <= ArticleConstant.ARTICLES_PER_PAGE * offset) {
+  if (
+    offset != 0 &&
+    articlesCount <= ArticleConstant.ARTICLES_PER_PAGE * offset
+  ) {
     redirect(`/profile/${username}/favorited`);
   }
 

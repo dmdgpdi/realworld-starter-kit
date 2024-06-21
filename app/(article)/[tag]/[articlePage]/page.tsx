@@ -35,8 +35,9 @@ export default async function ArticleTagPage({ params }: ArticleTagPageProps) {
   const { tags: tagList } = tagResponse;
 
   if (
-    !tagList.includes(tag) ||
-    articlesCount <= ArticleConstant.ARTICLES_PER_PAGE * offset
+    offset != 0 &&
+    (!tagList.includes(tag) ||
+      articlesCount <= ArticleConstant.ARTICLES_PER_PAGE * offset)
   ) {
     redirect('/');
   }

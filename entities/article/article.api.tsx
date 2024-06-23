@@ -79,6 +79,7 @@ const postArticle = async (article: ArticleRequest, token: string) => {
   });
 
   revalidatePath(`/(article)`, 'layout');
+  revalidatePath(`/profile`, 'layout');
   checkError(res);
 
   return res.json();
@@ -102,7 +103,7 @@ const putArticle = async (
     }),
   });
 
-  revalidatePath(`/(article)`, 'layout');
+  revalidatePath(`(article)/article/${articleSlug}`, 'page');
   checkError(res);
 
   return res.json();
@@ -120,6 +121,7 @@ const deleteArticle = async (articleSlug: string, token: string) => {
   });
 
   revalidatePath(`/(article)`, 'layout');
+  revalidatePath(`/profile`, 'layout');
   checkError(res);
 };
 
@@ -138,6 +140,8 @@ const postFavoriteArticle = async (
     },
   });
 
+  revalidatePath(`/(article)`, 'layout');
+  revalidatePath(`/profile`, 'layout');
   checkError(res);
 
   return res.json();
@@ -158,6 +162,8 @@ const postUnfavoriteArticle = async (
     },
   });
 
+  revalidatePath(`/(article)`, 'layout');
+  revalidatePath(`/profile`, 'layout');
   checkError(res);
 
   return res.json();

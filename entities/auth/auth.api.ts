@@ -89,8 +89,7 @@ const updateUserInfo = async (
       user,
     }),
   });
-  revalidatePath(url);
-
+  revalidatePath('/', 'layout');
   checkError(res);
   return res.json();
 };

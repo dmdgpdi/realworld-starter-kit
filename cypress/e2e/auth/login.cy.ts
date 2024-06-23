@@ -1,6 +1,6 @@
 describe('login', () => {
-  const correctEmail = 'test3@gmail.com';
-  const correctPassword = '12345678';
+  const correctEmail = Cypress.env('email');
+  const correctPassword = Cypress.env('password');
   const wrongEmail = 'worgemail@gmail.com';
   const wrongPassword = '11111111';
   const wrongFormatEmail = 'test3@gmailcom';

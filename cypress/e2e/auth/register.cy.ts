@@ -1,7 +1,7 @@
 describe('register', () => {
   const username = 'testUsernameForDev';
-  const email = 'test3@gmail.com';
-  const password = '12345678';
+  const email = Cypress.env('email');
+  const password = Cypress.env('password');
 
   beforeEach(() => {
     cy.visit('/register');
@@ -64,8 +64,8 @@ describe('register', () => {
 
 describe('wrong format register', () => {
   const username = 'testUsernameForDev';
-  const email = 'test3@gmail.com';
-  const password = '12345678';
+  const email = Cypress.env('email');
+  const password = Cypress.env('password');
 
   const wrongFormatUsername = 't';
   const wrongFormatEmail = 'test3gmail.com';
@@ -106,8 +106,8 @@ describe('wrong format register', () => {
 
 describe('register with network error', () => {
   const username = 'testUsernameForDev';
-  const email = 'test3@gmail.com';
-  const password = '12345678';
+  const email = Cypress.env('email');
+  const password = Cypress.env('password');
 
   beforeEach(() => {
     cy.visit('/register');

@@ -1,6 +1,8 @@
 describe('logout', () => {
   beforeEach(() => {
-    cy.login('test3@gmail.com', '12345678');
+    const email = Cypress.env('email');
+    const password = Cypress.env('password');
+    cy.login(email, password);
     cy.getBySel('setting-button').click();
   });
 

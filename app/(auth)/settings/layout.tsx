@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { AuthGuard, authServerAction } from '@/entities/auth';
+import { authServerAction } from '@/entities/auth';
 
 export default async function SettingPageLayout({
   children,
@@ -12,5 +12,5 @@ export default async function SettingPageLayout({
     redirect('/login');
   }
 
-  return <AuthGuard>{children}</AuthGuard>;
+  return children;
 }

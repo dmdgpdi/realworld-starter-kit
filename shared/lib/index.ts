@@ -46,6 +46,10 @@ const FormDataEntryValueToString = (formData: FormDataEntryValue) => {
   return formData instanceof File ? '' : formData;
 };
 
+const getBaseImage = () => {
+  return '/userProfileImage.jpg';
+};
+
 export {
   objectLength,
   isZero,
@@ -56,6 +60,7 @@ export {
   isEmptyString,
   decodeUrl,
   FormDataEntryValueToString,
+  getBaseImage,
 };
 
 export { getLocalItemWithExpiry, setLocalItemWithExpiry } from './localStorage';

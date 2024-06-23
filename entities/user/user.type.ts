@@ -1,7 +1,7 @@
 type Profile = {
-  username: 'string';
-  bio: 'string';
-  image: 'string';
+  username: string;
+  bio: string;
+  image: string;
   following: true;
 };
 

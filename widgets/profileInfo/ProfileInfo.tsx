@@ -3,12 +3,14 @@ import {
   ResponsiveWidthContainer,
   RowLayout,
 } from '@/shared/ui';
+import { getBaseImage } from '@/shared/lib';
 import { UserInfoLayout, userType, UserImage } from '@/entities/user';
 import { FollowUserProfileToggleButton } from '@/features/user/followUserToggle';
 import { NavigateUpdateProfileButton } from '@/features/auth';
 
 function ProfileInfo({ profile }: ProfileInfoProps) {
   const { username, image, following, bio } = profile;
+  const profileImage = image === '' ? getBaseImage() : image;
 
   return (
     <UserInfoLayout>
@@ -16,7 +18,7 @@ function ProfileInfo({ profile }: ProfileInfoProps) {
         <RowLayout>
           <ResponsiveWidthContainer>
             <UserImage
-              src={image}
+              src={profileImage}
               alt={`${username}'s profile image`}
               data-cy="user-image"
             />

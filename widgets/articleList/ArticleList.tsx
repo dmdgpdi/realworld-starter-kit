@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
-import { isEmptyList } from '@/shared/lib';
+import { getBaseImage, isEmptyList } from '@/shared/lib';
 import {
   articleLib,
   articleTypes,
@@ -15,13 +15,14 @@ import { ToggleFavoriteButton } from '@/features/article';
 
 function ArticleItem({ article }: { article: articleTypes.ArticleType }) {
   const { author, slug, favorited, favoritesCount } = article;
+  const authorImage = author.image === '' ? getBaseImage() : author.image;
 
   return (
     <ArticlePreviewLayout>
       <ArticleMetaLayout>
         <Link href={`/profile/${author.username}`} data-cy="user-profile-link">
           <Image
-            src={author.image}
+            src={authorImage}
             alt={author.username}
             width={100}
             height={100}

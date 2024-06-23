@@ -27,7 +27,7 @@ function UpdateUserInfoForm() {
     const onSuccess = async () => {
       if (isSuccess) {
         await setLoginState(token);
-        router.replace('/');
+        router.push('/');
         return;
       }
     };

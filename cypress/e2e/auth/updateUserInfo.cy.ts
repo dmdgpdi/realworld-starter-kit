@@ -1,41 +1,47 @@
 describe('update user info', () => {
   beforeEach(() => {
-    cy.login('test3@gmail.com', '12345678');
-    cy.getBySel('setting-button').click();
     cy.intercept({ url: '/settings', method: 'POST' }).as('setting');
     cy.intercept({ url: '**/user' }).as('getUser');
+    const email = Cypress.env('email');
+    const password = Cypress.env('password');
+    cy.login(email, password);
+    cy.getBySel('setting-button').click();
+    cy.url().should('include', 'settings');
   });
 
-  it('modify image username', () => {
+  it('modify username', () => {
     let previousUsername = '';
     const username1 = 'testIdForDev';
     const username2 = 'testIdForTest';
     cy.getBySel('profile-button').click();
+    cy.url().should('include', '/settings');
     cy.getBySel('username')
       .invoke('text')
       .then(text => {
         previousUsername = text;
-      });
-    const newUsername = previousUsername == username1 ? username2 : username1;
-    cy.getBySel('setting-button').click();
-    cy.getBySel('username-input').type(newUsername);
+        const newUsername =
+          previousUsername === username1 ? username2 : username1;
+        cy.getBySel('setting-button').click();
+        cy.getBySel('username-input').type(newUsername);
 
-    cy.getBySel('submit').click();
+        cy.getBySel('submit').click();
 
-    cy.wait('@setting');
-    cy.getBySel('profile-button').click();
-    cy.getBySel('username')
-      .invoke('text')
-      .then(text => {
-        expect(text).to.equal(newUsername);
+        cy.wait('@setting');
+        cy.wait('@getUser');
+        cy.url().should('not.include', '/settings');
+        cy.getBySel('profile-button')
+          .invoke('text')
+          .then(newText => {
+            expect(newText).equal(newUsername);
+          });
       });
   });
 
   it('modify bio', () => {
     let previousBio = '';
+    let newBio = '';
     const bio1 = 'hi dev';
     const bio2 = 'hi test';
-    let newBio = '';
     cy.getBySel('profile-button').click();
     cy.getBySel('user-bio')
       .invoke('text')
@@ -113,8 +119,9 @@ describe('validate input', () => {
 });
 
 describe('unauthorized access', () => {
-  it.only('access with no login', () => {
+  it('access with no login', () => {
     cy.visit('/settings');
+    cy.ignoreNextRedirectError();
     cy.url().should('not.include', 'settings');
   });
 });

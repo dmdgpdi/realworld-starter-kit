@@ -3,7 +3,7 @@ name: Cypress test
 on:
   pull_request_target:
     branches:
-      - develop
+      - '**/develop/**'
 
 jobs:
   build:

@@ -17,15 +17,19 @@ const parseFormData = (formData: FormData) => {
   return data;
 };
 
-const validateFormData = (data: Object, token: string | undefined) => {
-  const parsedData = authSchema.UpdateUserRequestSchema.safeParse(data);
-
+const hasToken = (token: string | undefined) => {
   if (!token) {
     throw new ValidationError(
       [ERROR_MESSAGE.AUTH_REQUIRED],
       ERROR_MESSAGE.AUTH_REQUIRED,
     );
   }
+
+  return token;
+};
+
+const validateFormData = (data: Object) => {
+  const parsedData = authSchema.UpdateUserRequestSchema.safeParse(data);
 
   if (!parsedData.success) {
     const errorList = parsedData.error.errors.map(error => error.message);
@@ -35,4 +39,4 @@ const validateFormData = (data: Object, token: string | undefined) => {
   return parsedData.data;
 };
 
-export { parseFormData, validateFormData };
+export { parseFormData, validateFormData, hasToken };

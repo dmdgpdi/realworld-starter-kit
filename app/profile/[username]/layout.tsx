@@ -1,7 +1,7 @@
+import { redirect } from 'next/navigation';
 import { decodeUrl } from '@/shared/lib';
 import { ProfilePageLayout, userApi } from '@/entities/user';
 import { ProfileInfo } from '@/widgets';
-import { redirect } from 'next/navigation';
 
 export default async function ProfileLayout({
   params,

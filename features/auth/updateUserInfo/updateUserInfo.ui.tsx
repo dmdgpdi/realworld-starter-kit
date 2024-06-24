@@ -27,7 +27,7 @@ function UpdateUserInfoForm() {
     const onSuccess = async () => {
       if (isSuccess) {
         await setLoginState(token);
-        router.replace('/');
+        router.push('/');
         return;
       }
     };
@@ -37,7 +37,7 @@ function UpdateUserInfoForm() {
 
   return (
     <>
-      <ErrorMessageUl>
+      <ErrorMessageUl data-cy="error-messages">
         {errorList.map(error => (
           <li key={error}>{error}</li>
         ))}
@@ -46,16 +46,33 @@ function UpdateUserInfoForm() {
       <form action={formAction}>
         <fieldset>
           <FieldSet>
-            <Input name="imageUrl" placeholder="URL of profile picture" />
+            <Input
+              name="imageUrl"
+              placeholder="URL of profile picture"
+              data-cy="image-url-input"
+            />
           </FieldSet>
           <FieldSet>
-            <LargeInput name="username" placeholder="Your Name" />
+            <LargeInput
+              name="username"
+              placeholder="Your Name"
+              data-cy="username-input"
+            />
           </FieldSet>
           <FieldSet>
-            <TextArea name="bio" placeholder="Short bio about you"></TextArea>
+            <TextArea
+              name="bio"
+              placeholder="Short bio about you"
+              data-cy="bio-input"
+            ></TextArea>
           </FieldSet>
           <FieldSet>
-            <LargeInput name="email" placeholder="Email" autoComplete="email" />
+            <LargeInput
+              name="email"
+              placeholder="Email"
+              autoComplete="email"
+              data-cy="email-input"
+            />
           </FieldSet>
           <FieldSet>
             <LargeInput
@@ -63,9 +80,10 @@ function UpdateUserInfoForm() {
               name="password"
               placeholder="New Password"
               autoComplete="new-password"
+              data-cy="password-input"
             />
           </FieldSet>
-          <SubmitButton>Update Settings</SubmitButton>
+          <SubmitButton data-cy="submit">Update Settings</SubmitButton>
         </fieldset>
       </form>
     </>

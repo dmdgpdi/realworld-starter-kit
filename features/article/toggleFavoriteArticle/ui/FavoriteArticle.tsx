@@ -11,7 +11,6 @@ function FavoriteArticleButton({
   articleSlug,
   favoritesCount,
   increaseFavoritesCount,
-  decreaseFavoritesCount,
   isSmall,
 }: FavoriteArticleProps) {
   const createToast = toastContext.useToastStore(
@@ -20,7 +19,6 @@ function FavoriteArticleButton({
 
   const postFavoriteArticle = async () => {
     try {
-      increaseFavoritesCount();
       const token = await authServerAction.getAuthCookie();
 
       if (!token) {
@@ -28,10 +26,10 @@ function FavoriteArticleButton({
       }
 
       await articleApi.postFavoriteArticle(articleSlug, token);
+      increaseFavoritesCount();
     } catch (error) {
       if (error instanceof Error) {
         createToast({ message: error.message });
-        decreaseFavoritesCount();
       }
     }
   };

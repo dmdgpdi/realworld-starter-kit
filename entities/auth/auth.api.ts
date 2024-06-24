@@ -10,6 +10,7 @@ import {
   UserInforResponse,
   UpdateUserRequest,
 } from './auth.type';
+import { revalidatePath } from 'next/cache';
 
 const postRegisterUser = async (
   userData: CreateUser,
@@ -27,6 +28,10 @@ const postRegisterUser = async (
   });
 
   if (!res.ok) {
+    if (500 <= res.status) {
+      checkError(res);
+    }
+
     const errorData: AuthErrorResponse = await res.json();
     return errorData?.errors;
   }
@@ -84,7 +89,7 @@ const updateUserInfo = async (
       user,
     }),
   });
-
+  revalidatePath('/', 'layout');
   checkError(res);
   return res.json();
 };

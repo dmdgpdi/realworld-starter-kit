@@ -32,7 +32,11 @@ function DeleteArticleButton({ articleSlug }: DeleteArticleButtonProps) {
   };
 
   return (
-    <CommonButton outLineBorderColor="danger" onClick={deleteArticle}>
+    <CommonButton
+      outLineBorderColor="danger"
+      onClick={deleteArticle}
+      data-cy="article-delete-button"
+    >
       <CommonIcon icon="ion-trash-a"></CommonIcon> Delete Article
     </CommonButton>
   );

@@ -13,7 +13,7 @@ async function ArticleSideBar({ tagList }: ArticleSideBarProps) {
 
       <TagListLayout>
         {tagList.map(tag => (
-          <ArticleCategoryTag tag={tag} key={tag} />
+          <ArticleCategoryTag tag={tag} key={tag} data-cy={`tag-link-${tag}`} />
         ))}
       </TagListLayout>
     </div>

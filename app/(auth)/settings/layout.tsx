@@ -1,9 +1,16 @@
-import { AuthGuard } from '@/entities/auth';
+import { redirect } from 'next/navigation';
+import { authServerAction } from '@/entities/auth';
 
-export default function SettingPageLayout({
+export default async function SettingPageLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <AuthGuard>{children}</AuthGuard>;
+  const token = await authServerAction.getAuthCookie();
+
+  if (!token) {
+    redirect('/login');
+  }
+
+  return children;
 }

@@ -25,25 +25,33 @@ export function RegisterForm() {
   const router = useRouter();
 
   const onSubmit: SubmitHandler<authType.CreateUser> = async userData => {
-    const error = await authApi.postRegisterUser(userData);
+    try {
+      const error = await authApi.postRegisterUser(userData);
 
-    if (error == undefined) {
-      router.push(`/${API.LOGIN}`);
-      return;
-    }
+      if (error == undefined) {
+        router.push(`/${API.LOGIN}`);
+        return;
+      }
 
-    for (const [k, v] of Object.entries(error)) {
-      const key = k as keyof authType.CreateUser;
+      for (const [k, v] of Object.entries(error)) {
+        const key = k as keyof authType.CreateUser;
 
-      v.forEach(value => {
-        setError(key, { message: `${key} ${value}` });
-      });
+        v.forEach(value => {
+          setError(key, { message: `${key} ${value}` });
+        });
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        setError('email', {
+          message: 'Something is wrong. Please retry again.',
+        });
+      }
     }
   };
 
   return (
     <>
-      <ErrorMessageUl>
+      <ErrorMessageUl data-cy="error-messages">
         {errors?.username && (
           <li id="username-error-message" role="alert">
             {errors.username.message}
@@ -70,6 +78,7 @@ export function RegisterForm() {
               required: 'Username을 입력해주세요.',
             })}
             placeholder="Username"
+            data-cy="username-input"
           />
         </FieldSet>
         <FieldSet>
@@ -77,6 +86,7 @@ export function RegisterForm() {
             {...register('email', { required: 'Email을 입력해주세요.' })}
             placeholder="Email"
             autoComplete="email"
+            data-cy="email-input"
           />
         </FieldSet>
         <FieldSet>
@@ -87,9 +97,10 @@ export function RegisterForm() {
             type="password"
             placeholder="Password"
             autoComplete="current-password"
+            data-cy="password-input"
           />
         </FieldSet>
-        <SubmitButton>Sign up</SubmitButton>
+        <SubmitButton data-cy="submit">Sign up</SubmitButton>
       </form>
     </>
   );

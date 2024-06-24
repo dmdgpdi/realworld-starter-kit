@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
@@ -14,12 +14,18 @@ import { loginFormAction } from './login.formAction';
 
 export function LoginForm() {
   const router = useRouter();
-  const setLoginState = useAuthStore(state => state.login);
+  const { login: setLoginState, logout: initLoginState } = useAuthStore(
+    state => state,
+  );
   const [state, formAction] = useFormState(loginFormAction, {
     isSuccess: false,
     errorList: [],
   });
   const { isSuccess, errorList, token } = state;
+
+  useLayoutEffect(() => {
+    initLoginState();
+  }, [initLoginState]);
 
   useEffect(() => {
     const onSuccess = async () => {
@@ -35,7 +41,7 @@ export function LoginForm() {
 
   return (
     <>
-      <ErrorMessageUl className="error-messages">
+      <ErrorMessageUl className="error-messages" data-cy="error-messages">
         {errorList.map(error => (
           <li role="alert" key={error}>
             {error}
@@ -45,7 +51,12 @@ export function LoginForm() {
 
       <form action={formAction}>
         <FieldSet>
-          <LargeInput name="email" placeholder="Email" autoComplete="email" />
+          <LargeInput
+            name="email"
+            placeholder="Email"
+            autoComplete="email"
+            data-cy="email-input"
+          />
         </FieldSet>
         <FieldSet>
           <LargeInput
@@ -53,9 +64,10 @@ export function LoginForm() {
             type="password"
             placeholder="Password"
             autoComplete="current-password"
+            data-cy="password-input"
           />
         </FieldSet>
-        <SubmitButton>Sign in</SubmitButton>
+        <SubmitButton data-cy="submit">Sign in</SubmitButton>
       </form>
     </>
   );

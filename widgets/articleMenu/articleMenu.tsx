@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { CommonButton, CommonIcon } from '@/shared/ui';
+import { getBaseImage } from '@/shared/lib';
 import {
   ArticleMetaLayout,
   AuthorLink,
@@ -26,19 +27,23 @@ function ArticleMenu({
   const router = useRouter();
   const userInformation = useAuthStore(state => state.userInfo);
   const isAuthorEqualUser = author.username === userInformation?.username;
+  const authorImage = author.image === '' ? getBaseImage() : author.image;
 
   return (
     <ArticleMetaLayout>
       <Link href={`/profile/${author.username}`}>
         <Image
-          src={author.image}
+          src={authorImage}
           alt={`author ${author.username}'s profile image.`}
           width={50}
           height={50}
         />
       </Link>
       <InforLayout>
-        <AuthorLink href={`/profile/${author.username}`}>
+        <AuthorLink
+          href={`/profile/${author.username}`}
+          data-cy="user-profile-link"
+        >
           {author.username}
         </AuthorLink>
         <DateDescription>{articleLib.formatDate(updatedAt)}</DateDescription>
@@ -61,6 +66,7 @@ function ArticleMenu({
             onClick={() => {
               router.push(`/editor/${articleSlug}`);
             }}
+            data-cy="article-update-button"
           >
             <CommonIcon icon="ion-edit"></CommonIcon> Edit Article
           </CommonButton>

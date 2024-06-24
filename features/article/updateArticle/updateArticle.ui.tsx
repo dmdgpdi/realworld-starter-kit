@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import {
@@ -24,16 +23,14 @@ function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
   });
   const { isSuccess, errorList } = state;
 
-  useEffect(() => {
-    if (isSuccess === true) {
-      router.replace('/');
-      return;
-    }
-  }, [isSuccess, router]);
+  if (isSuccess === true) {
+    router.replace('/');
+    return;
+  }
 
   return (
     <ResponsiveWidthContainer>
-      <ErrorMessageUl>
+      <ErrorMessageUl data-cy="error-messages">
         {errorList.map(error => (
           <li role="alert" key={error}>
             {error}
@@ -49,6 +46,7 @@ function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
               placeholder="Article Title"
               name="title"
               defaultValue={title}
+              data-cy="title-input"
             />
           </FieldSet>
           <FieldSet>
@@ -56,6 +54,7 @@ function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
               placeholder="What's this article about?"
               name="description"
               defaultValue={description}
+              data-cy="description-input"
             />
           </FieldSet>
           <>
@@ -65,11 +64,12 @@ function UpdateArticleForm({ article, hashValue }: UpdateArticleFormProps) {
               placeholder="Write your article (in markdown)"
               name="body"
               defaultValue={body}
+              data-cy="body-input"
             ></TextArea>
           </>
           <Input type="hidden" name="slug" value={slug} />
           <Input type="hidden" name="hash" value={hashValue} />
-          <SubmitButton>Publish Article</SubmitButton>
+          <SubmitButton data-cy="submit-button">Publish Article</SubmitButton>
         </fieldset>
       </form>
     </ResponsiveWidthContainer>

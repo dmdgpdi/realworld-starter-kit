@@ -14,19 +14,11 @@ function ToggleFavoriteButton({
   const [curFavoritesCount, setCurFavoritesCount] = useState(favoritesCount);
 
   const increaseFavoritesCount = () => {
-    if (isFavorited) {
-      return;
-    }
-
     setIsFavorited(true);
     setCurFavoritesCount(count => count + 1);
   };
 
   const decreaseFavoritesCount = () => {
-    if (!isFavorited) {
-      return;
-    }
-
     setIsFavorited(false);
     setCurFavoritesCount(count => count - 1);
   };

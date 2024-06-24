@@ -10,7 +10,6 @@ import { authServerAction } from '@/entities/auth';
 function UnfavoriteArticleButton({
   articleSlug,
   favoritesCount,
-  increaseFavoritesCount,
   decreaseFavoritesCount,
   isSmall,
 }: UnfavoriteArticleProps) {
@@ -20,7 +19,6 @@ function UnfavoriteArticleButton({
 
   const postUnfavoriteArticle = async () => {
     try {
-      decreaseFavoritesCount();
       const token = await authServerAction.getAuthCookie();
 
       if (!token) {
@@ -28,10 +26,10 @@ function UnfavoriteArticleButton({
       }
 
       await articleApi.postUnfavoriteArticle(articleSlug, token);
+      decreaseFavoritesCount();
     } catch (error) {
       if (error instanceof Error) {
         createToast({ message: error.message });
-        increaseFavoritesCount();
       }
     }
   };

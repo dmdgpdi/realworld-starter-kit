@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import {
   ContainerLayout,
   ResponsiveWidthContainer,
@@ -21,6 +22,13 @@ export default async function UserArticlePage({
       offset: offset * ArticleConstant.ARTICLES_PER_PAGE,
       limit: ArticleConstant.ARTICLES_PER_PAGE,
     });
+
+  if (
+    offset != 0 &&
+    articlesCount <= ArticleConstant.ARTICLES_PER_PAGE * offset
+  ) {
+    redirect(`/profile/${username}`);
+  }
 
   return (
     <ContainerLayout>

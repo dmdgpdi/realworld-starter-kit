@@ -6,7 +6,11 @@ import {
   validationLib,
   validationType,
 } from '@/entities/validation';
-import { parseFormData, validateFormData } from './updateUserInfo.lib';
+import {
+  parseFormData,
+  validateFormData,
+  hasToken,
+} from './updateUserInfo.lib';
 
 const updateUserInfoAction = async (
   currentState: validationType.FormState,
@@ -17,10 +21,11 @@ const updateUserInfoAction = async (
   let user;
 
   try {
-    const validatedData = validateFormData(parsedData, token);
+    const userToken = hasToken(token);
+    const validatedData = validateFormData(parsedData);
     const { user: newUserInfo } = await authApi.updateUserInfo(
       validatedData,
-      token!,
+      userToken!,
     );
     user = newUserInfo;
   } catch (error) {

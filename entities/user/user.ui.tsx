@@ -18,9 +18,16 @@ function UserInfoLayout({ children, ...otherProps }: LayoutProps) {
   );
 }
 
-function UserImage({ src, alt = 'user image' }: UserImageProps) {
+function UserImage({ src, alt = 'user image', ...otherProps }: UserImageProps) {
   return (
-    <Image alt={alt} width={100} height={100} src={src} className="user-img" />
+    <Image
+      alt={alt}
+      width={100}
+      height={100}
+      src={src}
+      className="user-img"
+      {...otherProps}
+    />
   );
 }
 

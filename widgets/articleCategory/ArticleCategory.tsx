@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import { NavItem, NavLink, FeedToggleLayout, CategoryNav } from '@/shared/ui';
 import { decodeUrl } from '@/shared/lib';
-import { authLib } from '@/entities/auth';
+import { useAuthStore } from '@/entities/auth';
 import { tagType } from '@/entities/tag';
 import { determineUrlStatus } from './articleCategory.lib';
 
@@ -28,44 +27,44 @@ function ArticleCategory({
   const pathname = usePathname();
   const { urlIsFeed, urlIsGlobalFeed, urlIsUser, urlIsUserFavorited } =
     determineUrlStatus(pathname, { tag: tag });
-  const [hasToken, setHasToken] = useState(false);
-
-  useEffect(() => {
-    const token = authLib.getClientAuthCookie();
-
-    if (token) {
-      setHasToken(true);
-      return;
-    }
-
-    setHasToken(false);
-  }, []);
+  const userInfo = useAuthStore(state => state.userInfo);
+  const isLoggedIn = userInfo ? true : false;
 
   return (
     <FeedToggleLayout>
       <CategoryNav>
-        {hasToken && (
+        {isLoggedIn && (
           <NavItem isShow={feedArticle}>
-            <NavLink isActive={urlIsFeed} href="/feed">
+            <NavLink isActive={urlIsFeed} href="/feed" data-cy="my-feed-nav">
               Your Feed
             </NavLink>
           </NavItem>
         )}
 
         <NavItem isShow={article}>
-          <NavLink isActive={urlIsGlobalFeed} href="/">
+          <NavLink
+            isActive={urlIsGlobalFeed}
+            href="/"
+            data-cy="global-feed-nav"
+          >
             Global Feed
           </NavLink>
         </NavItem>
 
         {tag && (
           <NavItem isShow={tagArticle}>
-            <NavLink isActive={true}># {tag}</NavLink>
+            <NavLink isActive={true} data-cy="tag-feed-nav">
+              # {tag}
+            </NavLink>
           </NavItem>
         )}
 
         <NavItem isShow={userArticle}>
-          <NavLink isActive={urlIsUser} href={`/profile/${username}`}>
+          <NavLink
+            isActive={urlIsUser}
+            href={`/profile/${username}`}
+            data-cy="user-article-nav"
+          >
             My Articles
           </NavLink>
         </NavItem>
@@ -74,6 +73,7 @@ function ArticleCategory({
           <NavLink
             isActive={urlIsUserFavorited}
             href={`/profile/${username}/favorited`}
+            data-cy="user-favorite-article-nav"
           >
             Favorited Articles
           </NavLink>

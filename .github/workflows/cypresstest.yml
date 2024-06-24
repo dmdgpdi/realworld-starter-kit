@@ -2,9 +2,9 @@ name: Cypress test
 
 on:
   pull_request:
-    types: [opened, reopened]
-    branches:
-      - develop
+    #types: [opened, reopened]
+    #branches:
+    #  - develop
 
 jobs:
   build:

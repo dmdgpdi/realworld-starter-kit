@@ -22,7 +22,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const authToken = await authServerAction.getAuthCookie();
-
+  // something change for github action
   return (
     <html lang="en">
       <head></head>

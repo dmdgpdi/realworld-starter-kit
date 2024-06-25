@@ -1,0 +1,30 @@
+
+name: Cypress test
+on:
+  pull_request:
+    branches: [ "develop" ]
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    # install dependency
+    - uses: actions/checkout@v4 
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'yarn'
+    - run: yarn install --frozen-lockfile
+    # set .env
+    - name: Create .env file
+      run: |
+        echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" >> .env
+        echo "LOCAL_URL=${{ secrets.LOCAL_URL }}" >> .env
+        echo "IS_MOCKING=${{ secrets.IS_MOCKING }}" >> .env
+        echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}" >> .env
+    # run cypress test
+    - name: Cypress run
+      uses: cypress-io/github-action@v6
+      with:
+        command: yarn cypress run
+

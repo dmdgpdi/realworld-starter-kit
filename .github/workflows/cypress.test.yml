@@ -22,6 +22,13 @@ jobs:
         echo "LOCAL_URL=${{ secrets.LOCAL_URL }}" >> .env
         echo "IS_MOCKING=${{ secrets.IS_MOCKING }}" >> .env
         echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}" >> .env
+    # save screenshots
+    - name: Upload screenshots
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: cypress/screenshots
     # start next.js in dev mode
     - name: Start Next.js
       run: yarn dev &

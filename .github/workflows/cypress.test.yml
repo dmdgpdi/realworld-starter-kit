@@ -22,6 +22,14 @@ jobs:
         echo "LOCAL_URL=${{ secrets.LOCAL_URL }}" >> .env
         echo "IS_MOCKING=${{ secrets.IS_MOCKING }}" >> .env
         echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}" >> .env
+    # start next.js in dev mode
+    - name: Start Next.js
+      run: yarn dev &
+      env:
+        NODE_ENV: development
+    # wait for Next.js to be ready
+    - name: Wait for Next.js
+      run: npx wait-on http://localhost:3000
     # run cypress test
     - name: Cypress run
       uses: cypress-io/github-action@v6

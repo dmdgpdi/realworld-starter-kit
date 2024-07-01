@@ -2,7 +2,7 @@ name: Cypress test
 on:
   pull_request:
       branches:
-      - 'develop'
+        - 'develop'
   workflow_dispatch:
 jobs:
   test:

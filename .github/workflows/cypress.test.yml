@@ -22,6 +22,7 @@ jobs:
           echo "LOCAL_URL=${{ secrets.LOCAL_URL }}" >> .env
           echo "IS_MOCKING=${{ secrets.IS_MOCKING }}" >> .env
           echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}" >> .env
+          cat .env # print .env
       # save screenshots
       - name: Upload screenshots
         uses: actions/upload-artifact@v3
@@ -45,3 +46,11 @@ jobs:
           password: '12345678'
         with:
           command: yarn cypress run
+      # save screen shots
+      - name: save screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore 

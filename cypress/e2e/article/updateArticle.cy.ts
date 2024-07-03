@@ -24,6 +24,7 @@ describe('update article with login', () => {
 
     cy.getBySel('submit-button').click();
 
+    cy.url().should('not.include', 'editor');
     cy.getBySel('profile-button').click();
     cy.url().should('include', '/profile');
     cy.getBySel('article-list')

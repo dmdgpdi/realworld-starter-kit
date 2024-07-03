@@ -11,6 +11,8 @@ import { ArticleMenu } from '@/widgets';
 import { CommentForm, CommentList } from '@/features/comment';
 import { ArticleDescriptionTag } from '@/entities/tag';
 
+//something change for github-action
+
 export default async function ArticlePage({ params }: ArticlePageProps) {
   let article;
   const { articleSlug } = params;

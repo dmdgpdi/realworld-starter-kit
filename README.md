@@ -36,17 +36,17 @@ ENCRYPTION_KEY='encryption'
 
 ## install dependency
 
-> npm install
+> yarn
 
 ## run
 
-> npm dev
+> yarn dev
 
 ### run when using MSW
 
 ```
-npm mock
-npm dev
+yarn mock
+yarn dev
 ```
 
 # File Structure
